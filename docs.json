@@ -22,7 +22,7 @@
             ]
           },
           {
-            "group": "Guides",
+            "group": "Usage",
             "pages": [
               "guides/creating-torrents",
               "guides/inspecting-torrents",
