@@ -81,23 +81,26 @@
           "icon": "github"
         },
         {
-          "anchor": "Community",
+          "anchor": "Discord",
           "href": "https://discord.gg/WehFCZxq5B",
           "icon": "discord"
         }
       ]
     }
   },
+  "contextual": {
+    "options": ["copy", "view", "chatgpt", "claude"]
+  },
+  "seo": {
+    "metatags": {
+      "description": "mkbrr - A powerful CLI tool for creating, inspecting, modifying, and checking torrents",
+      "keywords": "torrent, bittorrent, cli, tool, mkbrr, autobrr"
+    },
+    "indexing": "navigable"
+  },
   "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mkbrr.com"
-      }
-    ],
     "primary": {
-      "type": "button",
-      "label": "Github",
+      "type": "github",
       "href": "https://github.com/autobrr/mkbrr"
     }
   },
