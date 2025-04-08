@@ -26,8 +26,7 @@
               "guides/creating-torrents",
               "guides/inspecting-torrents",
               "guides/modifying-torrents",
-              "guides/checking-data",
-              "guides/updating"
+              "guides/checking-data"
             ]
           },
           {
@@ -53,9 +52,7 @@
               "cli-reference/create",
               "cli-reference/inspect",
               "cli-reference/modify",
-              "cli-reference/check",
-              "cli-reference/update",
-              "cli-reference/version"
+              "cli-reference/check"
             ]
           },
           {
