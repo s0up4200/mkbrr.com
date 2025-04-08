@@ -1,5 +1,41 @@
 # Incomplete Season Pack Detection
 
-When creating torrents from folders that appear to be TV season packs, `mkbrr` attempts to detect potentially missing episodes.
+When creating a torrent from a directory, `mkbrr` includes a feature to help detect potentially incomplete TV season packs.
 
-*Content to be added based on `internal/torrent/seasonfinder.go` and README.*
+## How it Works
+
+1.  **Season Detection:** `mkbrr` attempts to identify if the source directory or its files represent a TV season based on common naming patterns (e.g., `Show.Name.S01...`, `.../Season 02/...`, `...S03.Complete...`).
+2.  **Episode Extraction:** If a season is detected, it scans the video files (`.mkv`, `.mp4`) within the directory to extract episode numbers using patterns like `S01E01`, `S01E02E03`, `S01E05-E07`.
+3.  **Completeness Check:** It determines the highest episode number found (`MaxEpisode`) and compares it to the count of unique episodes identified.
+4.  **Warning Trigger:** A warning is displayed during torrent creation if the pack appears suspicious, specifically if:
+    *   3 or more episodes are missing, AND the highest episode number is 7 or greater.
+    *   OR, more than 50% of the episodes (from 1 to `MaxEpisode`) are missing.
+    *   OR, the highest episode number found is greater than the number of video files detected (often indicating missing files or inconsistent naming).
+
+## Example Warning
+
+If `mkbrr` suspects missing episodes, you will see a warning like this during the `mkbrr create` process:
+
+```plaintext
+Files being hashed:
+  ├─ Kyles.Original.Sins.S01E01.Business.and.Pleasure.1080p.SRC.WEB-DL.DDP5.1.H.264.mkv (3.3 GiB)
+  ├─ Kyles.Original.Sins.S01E02.Putting.It.Back.In.1080p.SRC.WEB-DL.DDP5.1.H.264.mkv (3.4 GiB)
+  └─ Kyles.Original.Sins.S01E04.Cursor.For.Life.1080p.SRC.WEB-DL.DDP5.1.H.264.mkv (3.3 GiB)
+
+
+Warning: Possible incomplete season pack detected
+  Season number: 1
+  Highest episode number found: 4
+  Episodes found: 3
+  Missing: episode 3
+
+This may be an incomplete season pack. Check files before uploading.
+
+Hashing pieces... [3220.23 MB/s] 100% [========================================]
+
+Wrote Kyles.Original.Sins.S01.1080p.SRC.WEB-DL.DDP5.1.H.264.torrent (elapsed 3.22s)
+```
+
+<Warning>
+This feature relies on common naming conventions and may not be perfectly accurate in all cases (e.g., unconventional naming, specials, multi-part episodes not following standard patterns). Always double-check your files if you receive this warning.
+</Warning>

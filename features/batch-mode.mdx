@@ -1,5 +1,74 @@
 # Batch Mode
 
-Create multiple torrents simultaneously using a `batch.yaml` configuration file.
+Batch mode allows you to create multiple torrents from different source paths with varying settings in a single command execution.
 
-*Content to be added based on `internal/torrent/batch.go`, `examples/batch.yaml`, `schema/batch.json`, and README.*
+## Configuration File (`batch.yaml`)
+
+Batch operations are defined in a YAML file, typically named `batch.yaml`. You specify this file using the `-b` (or `--batch`) flag with the `create` command.
+
+```bash
+mkbrr create -b batch.yaml
+```
+
+### Structure
+
+The `batch.yaml` file defines a list of jobs:
+
+```yaml
+# yaml-language-server: $schema=https://raw.githubusercontent.com/autobrr/mkbrr/main/schema/batch.json
+version: 1
+jobs:
+  # Job 1: Create a torrent for a single file
+  - output: /path/to/output/movie.torrent # Output .torrent file path
+    path: /path/to/source/movie.mkv       # Source file path
+    trackers:
+      - https://tracker-one.com/announce/abc
+    private: true
+    comment: "My Movie"
+    source: "Source1"
+
+  # Job 2: Create a torrent for a directory
+  - output: /path/to/output/album.torrent
+    path: /path/to/source/album-directory/
+    trackers:
+      - udp://tracker-two.org:6969/announce
+    private: false # Public torrent
+    piece_length: 18 # 256 KiB pieces
+    webseeds:
+      - http://seed.example.com/album/
+    exclude_patterns:
+      - "*.log"
+      - "cover.jpg"
+
+  # Add more jobs as needed...
+```
+
+-   **`version`**: Must be `1`.
+-   **`jobs`**: A list of individual torrent creation tasks. Each job requires:
+    -   `output`: The full path where the resulting `.torrent` file should be saved.
+    -   `path`: The full path to the source file or directory for this job.
+-   **Optional Job Settings**: Each job can also include any of the following options, which correspond to the flags available in the standard `mkbrr create` command:
+    -   `trackers`: List of announce URLs.
+    -   `webseeds`: List of web seed URLs.
+    -   `private`: `true` or `false`.
+    -   `piece_length`: Piece size exponent (e.g., `18` for 256 KiB).
+    -   `comment`: Torrent comment string.
+    -   `source`: Source tag string.
+    -   `no_date`: `true` to omit creation date.
+    -   `exclude_patterns`: List of glob patterns to exclude files within this job's source path.
+    -   `include_patterns`: List of glob patterns to include files within this job's source path.
+
+You can find the formal JSON schema for validation [here](https://raw.githubusercontent.com/autobrr/mkbrr/main/schema/batch.json).
+
+## Execution
+
+When you run `mkbrr create -b <your-config.yaml>`, `mkbrr` will:
+
+1.  Validate the configuration file.
+2.  Process the jobs concurrently (up to 4 jobs at a time by default) for efficiency.
+3.  Create the specified `.torrent` files at their respective `output` paths.
+4.  Display a summary of successful and failed jobs, along with total size and processing time. If run with `-v` (verbose), it shows detailed results for each job.
+
+<Note>
+You cannot provide a source path argument directly to `mkbrr create` when using the `-b` flag. All source paths must be defined within the batch file jobs.
+</Note>

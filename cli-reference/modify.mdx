@@ -1,5 +1,76 @@
 # `mkbrr modify`
 
-Reference for the `modify` command.
+Modify existing torrent files using a preset or flags. This allows batch modification of torrent files with new tracker URLs, source tags, etc. Original files are preserved, and new files are created with a prefix by default.
 
-*Content to be added based on `cmd/modify.go` help output.*
+Note: All unnecessary metadata will be stripped during modification.
+
+```bash
+Usage:
+  mkbrr modify [flags] [torrent files...]
+```
+
+## Arguments
+
+-   `[torrent files...]`: (Required) One or more paths to the `.torrent` files to modify.
+
+## Flags
+
+<ParamField path="--preset, -P" type="string">
+  Use preset from config.
+</ParamField>
+
+<ParamField path="--preset-file" type="string">
+  Preset config file (default: `~/.config/mkbrr/presets.yaml`).
+</ParamField>
+
+<ParamField path="--output-dir" type="string">
+  Output directory for modified files.
+</ParamField>
+
+<ParamField path="--output, -o" type="string">
+  Custom output filename (without extension).
+</ParamField>
+
+<ParamField path="--no-date, -d" type="boolean" default="false">
+  Don't update creation date (otherwise, it's set to the current time).
+</ParamField>
+
+<ParamField path="--no-creator" type="boolean" default="false">
+  Don't write/update creator string.
+</ParamField>
+
+<ParamField path="--tracker, -t" type="string">
+  Set a new tracker URL (replaces existing).
+</ParamField>
+
+<ParamField path="--web-seed, -w" type="string[]">
+  Set/replace web seed URLs. Can be used multiple times.
+</ParamField>
+
+<ParamField path="--private, -p" type="boolean" default="true">
+  Make torrent private.
+</ParamField>
+
+<ParamField path="--comment, -c" type="string">
+  Set/replace comment.
+</ParamField>
+
+<ParamField path="--source, -s" type="string">
+  Set/replace source string.
+</ParamField>
+
+<ParamField path="--entropy, -e" type="boolean" default="false">
+  Randomize info hash by adding/updating an entropy field.
+</ParamField>
+
+<ParamField path="--verbose, -v" type="boolean" default="false">
+  Be verbose.
+</ParamField>
+
+<ParamField path="--quiet" type="boolean" default="false">
+  Reduced output mode (prints only final torrent paths).
+</ParamField>
+
+<ParamField path="--dry-run, -n" type="boolean" default="false">
+  Show what would be modified without making changes.
+</ParamField>

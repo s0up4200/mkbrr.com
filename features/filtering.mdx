@@ -1,5 +1,63 @@
 # Filtering Files (Include/Exclude)
 
-Learn how to use glob patterns with the `--include` and `--exclude` flags during torrent creation to control which files are added to the torrent.
+When creating a torrent from a directory, you can control which files are included using the `--include` and `--exclude` flags with the `mkbrr create` command. These flags accept [glob patterns](https://en.wikipedia.org/wiki/Glob_(programming)) to match filenames.
 
-*Content to be added based on `internal/torrent/ignore.go`, `cmd/create.go` help output, and README.*
+## Built-in Exclusions
+
+`mkbrr` always excludes the following common system and temporary files (case-insensitive):
+
+-   `.torrent`
+-   `.ds_store`
+-   `thumbs.db`
+-   `desktop.ini`
+
+## `--exclude` Flag
+
+Use `--exclude` to specify patterns for files you want to *prevent* from being included in the torrent.
+
+-   You can use the flag multiple times: `--exclude "*.nfo" --exclude "*sample*"`
+-   You can provide a comma-separated list: `--exclude "*.nfo,*sample*,*.txt"`
+-   Patterns are matched against the filename only (not the full path).
+-   Matching is case-insensitive.
+
+**Example:** Exclude all `.nfo` files and any file containing `sample`.
+```bash
+mkbrr create /path/to/release/ -t ... --exclude "*.nfo,*sample*"
+```
+
+## `--include` Flag
+
+Use `--include` to specify patterns for files that *must* be included. If this flag is used, **only files matching these patterns will be included** in the torrent (in addition to the built-in exclusions still being applied).
+
+-   You can use the flag multiple times: `--include "*.mkv" --include "*.mp4"`
+-   You can provide a comma-separated list: `--include "*.mkv,*.mp4,*.avi"`
+-   Patterns are matched against the filename only.
+-   Matching is case-insensitive.
+
+**Example:** Include only `.mkv` and `.mp4` video files.
+```bash
+mkbrr create /path/to/release/ -t ... --include "*.mkv,*.mp4"
+```
+
+## Precedence Rules
+
+The filtering logic follows these steps:
+
+1.  **Built-in Exclusions:** Files matching `.torrent`, `.ds_store`, etc., are always ignored first.
+2.  **`--include` Check:** If `--include` patterns are provided:
+    *   Does the filename match any `--include` pattern?
+        *   **Yes:** Keep the file. Proceed no further for this file.
+        *   **No:** Ignore the file. Proceed no further for this file.
+3.  **`--exclude` Check:** If *no* `--include` patterns were provided:
+    *   Does the filename match any `--exclude` pattern?
+        *   **Yes:** Ignore the file.
+        *   **No:** Keep the file.
+4.  **Default:** If none of the above rules cause the file to be ignored, it is kept.
+
+<Info>
+In essence, `--include` acts as a whitelist when used. If you only want specific file types, use `--include`. If you want most files but need to skip a few specific types, use `--exclude`.
+</Info>
+
+## Usage in Presets and Batch Mode
+
+Both `exclude_patterns` and `include_patterns` can also be defined within your `presets.yaml` or `batch.yaml` files, following the same glob pattern rules and precedence logic. Command-line flags (`--exclude`, `--include`) will append to any patterns defined in a used preset.
