@@ -47,21 +47,23 @@
             ]
           },
           {
-            "group": "CLI Reference",
-            "pages": [
-              "cli-reference/introduction",
-              "cli-reference/create",
-              "cli-reference/inspect",
-              "cli-reference/modify",
-              "cli-reference/check"
-            ]
-          },
-          {
             "group": "Development",
             "pages": [
               "development"
             ]
           }
+        ]
+      },
+      {
+        "tab": "CLI Reference",
+        "pages": [
+          "cli-reference/introduction",
+          "cli-reference/create",
+          "cli-reference/inspect",
+          "cli-reference/modify",
+          "cli-reference/check",
+          "cli-reference/update",
+          "cli-reference/version"
         ]
       },
       {
