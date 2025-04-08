@@ -21,24 +21,21 @@ version: 1
 
 # Optional: Default settings applied to ALL presets unless overridden
 default:
-  private: true      # Default to private torrents
-  no_date: true      # Don't write creation date by default
-  no_creator: false  # Write creator string by default
-  skip_prefix: false # Add tracker prefix to filename by default
+  private: true
+  no_date: true
+  no_creator: false
+  skip_prefix: false
   # comment: "Default comment"
   # source: "DEFAULT_SRC"
   # exclude_patterns: ["*.bak", "temp.*"]
   # include_patterns: ["*.mkv", "*.mp4"]
-  # piece_length: 20 # Default piece length exponent (1 MiB) if set
 
 presets:
-  # Name of the preset (used with -P flag)
-  preset-name-1:
+  preset-name-1: # Name of the preset (used with -P flag)
     trackers:
       - "https://tracker-one.com/announce/..."
     source: "TRACKER1"
     comment: "Uploaded via mkbrr"
-    # Override default settings if needed
     private: true
     exclude_patterns:
       - "*.nfo"
@@ -47,7 +44,7 @@ presets:
   preset-name-2:
     trackers:
       - "udp://tracker-two.org:6969/announce"
-    private: false # Make this preset public
+    private: false # Make these torrents public
     piece_length: 18 # Use 256 KiB pieces for this preset
     include_patterns:
       - "*.mkv"
