@@ -1,0 +1,210 @@
+---
+title: Installation
+description: "How to install mkbrr using various methods."
+---
+
+Choose the installation method that suits you best:
+
+<Tabs>
+  <Tab title="Pre-built Binaries">
+    Download the appropriate binary for your system from the [GitHub Releases page](https://github.com/autobrr/mkbrr/releases/latest) or use the commands below.
+
+    <Tabs>
+      <Tab title="Linux">
+        <Tabs>
+          <Tab title="Generic (tar.gz)">
+            Choose your architecture:
+
+            **amd64:**
+            ```bash
+            # Download
+            wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_x86_64 | cut -d\" -f4)
+
+            # Extract (adjust path if needed)
+            sudo tar -C /usr/local/bin -xzf mkbrr_*_linux_amd64.tar.gz mkbrr
+            ```
+
+            **arm64:**
+            ```bash
+            # Download
+            wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_arm64.tar.gz | cut -d\" -f4)
+
+            # Extract (adjust path if needed)
+            sudo tar -C /usr/local/bin -xzf mkbrr_*_linux_arm64.tar.gz mkbrr
+            ```
+
+            **arm:**
+            ```bash
+            # Download
+            wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_arm.tar.gz | grep -v arm64 | cut -d\" -f4) # Exclude arm64
+
+            # Extract (adjust path if needed)
+            sudo tar -C /usr/local/bin -xzf mkbrr_*_linux_arm.tar.gz mkbrr
+            ```
+            Make sure `/usr/local/bin` (or your chosen directory) is in your `PATH`.
+          </Tab>
+          <Tab title="Debian/Ubuntu (.deb)">
+            Choose your architecture:
+
+            **amd64:**
+            ```bash
+            # Download
+            wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_amd64.deb | cut -d\" -f4)
+
+            # Install
+            sudo dpkg -i mkbrr_*_linux_amd64.deb
+            ```
+
+            **arm64:**
+            ```bash
+            # Download
+            wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_arm64.deb | cut -d\" -f4)
+
+            # Install
+            sudo dpkg -i mkbrr_*_linux_arm64.deb
+            ```
+
+            **armv6:**
+            ```bash
+            # Download
+            wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_armv6.deb | cut -d\" -f4)
+
+            # Install
+            sudo dpkg -i mkbrr_*_linux_armv6.deb
+            ```
+          </Tab>
+          <Tab title="Fedora/CentOS (.rpm)">
+            Choose your architecture:
+
+            **amd64:**
+            ```bash
+            # Download
+            wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_amd64.rpm | cut -d\" -f4)
+
+            # Install
+            sudo rpm -i mkbrr_*_linux_amd64.rpm
+            ```
+
+            **arm64:**
+            ```bash
+            # Download
+            wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_arm64.rpm | cut -d\" -f4)
+
+            # Install
+            sudo rpm -i mkbrr_*_linux_arm64.rpm
+            ```
+
+            **armv6:**
+            ```bash
+            # Download
+            wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_armv6.rpm | cut -d\" -f4)
+
+            # Install
+            sudo rpm -i mkbrr_*_linux_armv6.rpm
+            ```
+          </Tab>
+          <Tab title="Alpine (.apk)">
+             Choose your architecture:
+
+            **amd64:**
+            ```bash
+            # Download
+            wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_amd64.apk | cut -d\" -f4)
+
+            # Install
+            sudo apk add --allow-untrusted mkbrr_*_linux_amd64.apk
+            ```
+
+            **arm64:**
+            ```bash
+            # Download
+            wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_arm64.apk | cut -d\" -f4)
+
+            # Install
+            sudo apk add --allow-untrusted mkbrr_*_linux_arm64.apk
+            ```
+
+            **armv6:**
+             ```bash
+            # Download
+            wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_armv6.apk | cut -d\" -f4)
+
+            # Install
+            sudo apk add --allow-untrusted mkbrr_*_linux_armv6.apk
+            ```
+          </Tab>
+        </Tabs>
+      </Tab>
+      <Tab title="macOS">
+        <Tabs>
+          <Tab title="Apple Silicon (arm64)">
+            ```bash
+            # Download
+            wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep darwin_arm64.tar.gz | cut -d\" -f4)
+
+            # Extract (adjust path if needed)
+            sudo tar -C /usr/local/bin -xzf mkbrr_*_darwin_arm64.tar.gz mkbrr
+            ```
+          </Tab>
+          <Tab title="Intel (x86_64)">
+            ```bash
+            # Download
+            wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep darwin_x86_64.tar.gz | cut -d\" -f4)
+
+            # Extract (adjust path if needed)
+            sudo tar -C /usr/local/bin -xzf mkbrr_*_darwin_x86_64.tar.gz mkbrr
+            ```
+          </Tab>
+        </Tabs>
+        <br />
+        **Note:**
+        - Ensure the extraction directory (e.g., `/usr/local/bin`) is in your system's `PATH`.
+        - You might need to grant execution permissions: `chmod +x /usr/local/bin/mkbrr`.
+        - If you encounter issues with macOS Gatekeeper, run: `xattr -d com.apple.quarantine /usr/local/bin/mkbrr`.
+      </Tab>
+      <Tab title="Windows">
+        Download the `mkbrr_*_windows_x86_64.zip` file from the [GitHub Releases page](https://github.com/autobrr/mkbrr/releases/latest).
+
+        Alternatively, using PowerShell (requires `curl`):
+        ```powershell
+        # Download (Uses Invoke-RestMethod for reliable JSON parsing)
+        $releaseInfo = Invoke-RestMethod -Uri "https://api.github.com/repos/autobrr/mkbrr/releases/latest"
+        $url = $releaseInfo.assets | Where-Object { $_.name -like '*windows_x86_64.zip' } | Select-Object -ExpandProperty browser_download_url
+        curl -L -o mkbrr_latest_windows_x86_64.zip $url
+
+        # Extract
+        Expand-Archive -Path mkbrr_latest_windows_x86_64.zip -DestinationPath .\\mkbrr_extracted -Force
+        ```
+
+        After downloading and extracting:
+        1.  Locate the `mkbrr.exe` file inside the extracted folder.
+        2.  Move `mkbrr.exe` to a directory that is included in your system's `PATH` environment variable (e.g., `C:\Program Files\mkbrr`). You might need to create this directory.
+        3.  Alternatively, add the directory containing `mkbrr.exe` to your system or user `PATH` variable through System Properties -> Environment Variables.
+      </Tab>
+    </Tabs>
+  </Tab>
+  <Tab title="Homebrew (macOS/Linux)">
+    If you use Homebrew, you can install `mkbrr` with these commands:
+
+    ```bash
+    brew tap autobrr/mkbrr
+    brew install mkbrr
+    ```
+  </Tab>
+  <Tab title="Go Install">
+    If you have Go installed (version 1.23 or later recommended), you can install `mkbrr` using:
+
+    ```bash
+    go install github.com/autobrr/mkbrr@latest
+    ```
+
+    Ensure that your Go binary path (`$(go env GOPATH)/bin`) is included in your system's `PATH` environment variable.
+    ```bash
+    export PATH=$PATH:$(go env GOPATH)/bin
+    ```
+    Source your `.bashrc` or `.zshrc`
+    ```bash
+    source ~/.zshrc
+    ```
+  </Tab>
+</Tabs>

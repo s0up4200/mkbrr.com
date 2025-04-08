@@ -1,38 +1,7 @@
-# Quick Start
-
-Welcome to `mkbrr`! This guide will help you install the tool and create your first torrent file quickly.
-
-## Installation
-
-Choose the installation method that suits you best:
-
-<Tabs>
-  <Tab title="Pre-built Binaries">
-    Download the appropriate binary for your operating system and architecture directly from the [GitHub Releases page](https://github.com/autobrr/mkbrr/releases).
-
-    Make sure the downloaded binary is executable and placed in a directory included in your system's `PATH`.
-  </Tab>
-  <Tab title="Homebrew (macOS/Linux)">
-    If you use Homebrew, you can install `mkbrr` with these commands:
-
-    ```bash
-    brew tap autobrr/mkbrr
-    brew install mkbrr
-    ```
-  </Tab>
-  <Tab title="Go Install">
-    If you have Go installed (version 1.23 or later recommended), you can install `mkbrr` using:
-
-    ```bash
-    go install github.com/autobrr/mkbrr@latest
-    ```
-
-    Ensure that your Go binary path (`$(go env GOPATH)/bin`) is included in your system's `PATH` environment variable.
-    ```bash
-    export PATH=$PATH:$(go env GOPATH)/bin
-    ```
-  </Tab>
-</Tabs>
+---
+title: Quick Start
+description: "Get started quickly by creating your first torrent file."
+---
 
 ## Creating Your First Torrent
 
@@ -43,8 +12,6 @@ Once installed, you can create torrents using the `mkbrr create` command.
 Most private trackers require torrents to be marked as private. This is the default behavior.
 
 ```bash
-# Replace path/to/your/content with the actual file or directory
-# Replace https://your-tracker.com/announce with your tracker's URL
 mkbrr create path/to/your/content -t https://your-tracker.com/announce
 ```
 This command creates a `.torrent` file (e.g., `your-tracker_content.torrent`) in the current directory.
@@ -54,7 +21,6 @@ This command creates a `.torrent` file (e.g., `your-tracker_content.torrent`) in
 For public trackers, use the `--private=false` flag.
 
 ```bash
-# Example using a public tracker
 mkbrr create path/to/your/content -t udp://tracker.opentrackr.org:1337/announce --private=false
 ```
 This creates a public `.torrent` file.
