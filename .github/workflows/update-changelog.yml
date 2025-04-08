@@ -1,0 +1,338 @@
+name: Update Changelog
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag to process (leave empty for latest)'
+        required: false
+        default: ''
+
+jobs:
+  update-changelog:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install @octokit/rest
+
+      - name: Update Changelog
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const { Octokit } = require('@octokit/rest');
+            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+            
+            // The project repo (where releases are published)
+            const projectOwner = 'autobrr';
+            const projectRepo = 'mkbrr';
+            
+            // The documentation repo (this repo)
+            const docsOwner = context.repo.owner;
+            const docsRepo = context.repo.repo;
+            
+            async function getRelease() {
+              let tag;
+              if (context.payload.inputs && context.payload.inputs.release_tag) {
+                tag = context.payload.inputs.release_tag;
+                console.log(`Using provided release tag: ${tag}`);
+                
+                const { data: release } = await octokit.repos.getReleaseByTag({
+                  owner: projectOwner,
+                  repo: projectRepo,
+                  tag
+                });
+                return release;
+              } else {
+                console.log('Getting latest release');
+                const { data: release } = await octokit.repos.getLatestRelease({
+                  owner: projectOwner,
+                  repo: projectRepo
+                });
+                return release;
+              }
+            }
+            
+            async function getReleaseCommits(tagName) {
+              try {
+                // Get all releases to find the previous one
+                const { data: releases } = await octokit.repos.listReleases({
+                  owner: projectOwner,
+                  repo: projectRepo,
+                  per_page: 100
+                });
+                
+                // Sort releases by published date
+                releases.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
+                
+                // Find the current release
+                const currentReleaseIndex = releases.findIndex(r => r.tag_name === tagName);
+                if (currentReleaseIndex === -1) {
+                  throw new Error(`Could not find release with tag ${tagName}`);
+                }
+                
+                // Find the previous release tag
+                const previousRelease = releases[currentReleaseIndex + 1];
+                if (!previousRelease) {
+                  console.log('This is the first release, fetching all commits');
+                  return { commits: [], previousTag: null };
+                }
+                
+                const previousTag = previousRelease.tag_name;
+                console.log(`Comparing ${previousTag}...${tagName}`);
+                
+                // Get the comparison between the two tags
+                const { data: comparison } = await octokit.repos.compareCommits({
+                  owner: projectOwner,
+                  repo: projectRepo,
+                  base: previousTag,
+                  head: tagName
+                });
+                
+                return { 
+                  commits: comparison.commits,
+                  previousTag
+                };
+              } catch (error) {
+                console.error(`Error getting release commits: ${error}`);
+                return { commits: [], previousTag: null };
+              }
+            }
+            
+            async function getPullRequests(commits) {
+              const prNumbers = new Set();
+              
+              // Extract PR numbers from commit messages
+              const prRegex = /\(#(\d+)\)/;
+              
+              commits.forEach(commit => {
+                const message = commit.commit.message;
+                const match = message.match(prRegex);
+                if (match && match[1]) {
+                  prNumbers.add(match[1]);
+                }
+              });
+              
+              const pullRequests = [];
+              
+              // Fetch PR details for each number
+              for (const prNumber of prNumbers) {
+                try {
+                  const { data: pr } = await octokit.pulls.get({
+                    owner: projectOwner,
+                    repo: projectRepo,
+                    pull_number: parseInt(prNumber)
+                  });
+                  
+                  pullRequests.push({
+                    number: prNumber,
+                    title: pr.title,
+                    user: pr.user.login
+                  });
+                } catch (error) {
+                  console.warn(`Could not fetch PR #${prNumber}: ${error.message}`);
+                }
+              }
+              
+              return pullRequests;
+            }
+            
+            function categorizeCommits(commits, pullRequests) {
+              const categories = {
+                "New Features": [],
+                "Bug fixes": [],
+                "Other work": []
+              };
+              
+              // Map PR numbers to PR objects for easy lookup
+              const prMap = {};
+              pullRequests.forEach(pr => {
+                prMap[pr.number] = pr;
+              });
+              
+              // Extract contributors
+              const contributors = new Set();
+              
+              commits.forEach(commit => {
+                let category = "Other work";
+                const message = commit.commit.message.split('\n')[0];
+                
+                // Determine category based on commit message
+                if (message.match(/^feat(\([^)]+\))?:/)) {
+                  category = "New Features";
+                } else if (message.match(/^fix(\([^)]+\))?:/)) {
+                  category = "Bug fixes";
+                }
+                
+                // Extract PR number
+                const prMatch = message.match(/\(#(\d+)\)/);
+                let prNumber = null;
+                let author = commit.author ? commit.author.login : null;
+                
+                if (prMatch && prMatch[1]) {
+                  prNumber = prMatch[1];
+                  
+                  // Use PR author if available
+                  if (prMap[prNumber]) {
+                    author = prMap[prNumber].user;
+                  }
+                }
+                
+                if (author) {
+                  contributors.add(author);
+                }
+                
+                categories[category].push({
+                  sha: commit.sha,
+                  message: message,
+                  prNumber: prNumber,
+                  author: author
+                });
+              });
+              
+              return { categories, contributors: Array.from(contributors) };
+            }
+            
+            function formatChangelogEntry(release, commits, pullRequests, previousTag) {
+              const { categories, contributors } = categorizeCommits(commits, pullRequests);
+              
+              const date = new Date(release.published_at).toISOString().slice(0, 10);
+              
+              let changelogEntry = `<Update label="${release.tag_name}" description="${date}">\n`;
+              
+              // Add categories with commit links
+              for (const [category, categoryCommits] of Object.entries(categories)) {
+                if (categoryCommits.length === 0) continue;
+                
+                changelogEntry += `### ${category}\n`;
+                
+                categoryCommits.forEach(commit => {
+                  const shortSha = commit.sha.substring(0, 7);
+                  const commitLink = `[${shortSha}](https://github.com/${projectOwner}/${projectRepo}/commit/${commit.sha})`;
+                  
+                  // Clean up the commit message
+                  let cleanMessage = commit.message;
+                  
+                  // Remove the commit type prefix (feat:, fix:, etc.)
+                  cleanMessage = cleanMessage.replace(/^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([^)]+\))?:\s*/i, '');
+                  
+                  // Extract PR number if present
+                  const prMatch = cleanMessage.match(/\(#(\d+)\)/);
+                  let prReference = '';
+                  if (prMatch && prMatch[1]) {
+                    const prNumber = prMatch[1];
+                    prReference = ` ([#${prNumber}](https://github.com/${projectOwner}/${projectRepo}/pull/${prNumber}))`;
+                    // Remove the PR reference from the message
+                    cleanMessage = cleanMessage.replace(/\s*\(#\d+\)/, '');
+                  }
+                  
+                  // Add author if available
+                  const authorText = commit.author ? ` (@${commit.author})` : '';
+                  
+                  // Capitalize the first letter
+                  cleanMessage = cleanMessage.charAt(0).toUpperCase() + cleanMessage.slice(1);
+                  
+                  changelogEntry += `- ${commitLink}: ${cleanMessage}${prReference}${authorText}\n`;
+                });
+                
+                changelogEntry += '\n';
+              }
+              
+              // Add full changelog link if we have a previous tag
+              if (previousTag) {
+                changelogEntry += `**Full Changelog**: [${previousTag}...${release.tag_name}](https://github.com/${projectOwner}/${projectRepo}/compare/${previousTag}...${release.tag_name})\n\n`;
+              }
+              
+              // Add contributors section
+              if (contributors.length > 0) {
+                changelogEntry += '### Contributors\n';
+                contributors.forEach(contributor => {
+                  changelogEntry += `- @${contributor}\n`;
+                });
+              }
+              
+              changelogEntry += '</Update>\n';
+              
+              return changelogEntry;
+            }
+            
+            async function main() {
+              try {
+                const release = await getRelease();
+                console.log(`Processing release: ${release.tag_name}`);
+                
+                const { commits, previousTag } = await getReleaseCommits(release.tag_name);
+                console.log(`Found ${commits.length} commits since ${previousTag || 'beginning'}`);
+                
+                const prs = await getPullRequests(commits);
+                console.log(`Found ${prs.length} PRs`);
+                
+                const changelogEntry = formatChangelogEntry(release, commits, prs, previousTag);
+                console.log('Generated changelog entry');
+                
+                // Read the current changelog
+                const changelogPath = 'changelog.mdx';
+                const changelog = fs.readFileSync(changelogPath, 'utf8');
+                
+                // Check if this release is already in the changelog
+                if (changelog.includes(`<Update label="${release.tag_name}"`)) {
+                  console.log(`Release ${release.tag_name} already in changelog, skipping`);
+                  return;
+                }
+                
+                // Split the changelog at the first <Update> tag
+                const [header, ...rest] = changelog.split('<Update');
+                
+                // Combine the parts with the new entry
+                const newChangelog = `${header}${changelogEntry}<Update${rest.join('<Update')}`;
+                
+                // Write the updated changelog
+                fs.writeFileSync(changelogPath, newChangelog);
+                
+                // Set Git identity
+                await exec.exec('git', ['config', '--global', 'user.name', 'github-actions[bot]']);
+                await exec.exec('git', ['config', '--global', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com']);
+                
+                // Create a branch with the release version
+                const newBranch = `changelog-${release.tag_name}`;
+                await exec.exec('git', ['checkout', '-b', newBranch]);
+                
+                // Add and commit the changes
+                await exec.exec('git', ['add', changelogPath]);
+                await exec.exec('git', ['commit', '-m', `docs: update changelog for ${release.tag_name}`]);
+                
+                // Push to the repository
+                await exec.exec('git', ['push', 'origin', newBranch]);
+                
+                // Create a pull request
+                const { data: pullRequest } = await octokit.pulls.create({
+                  owner: docsOwner,
+                  repo: docsRepo,
+                  title: `docs: update changelog for ${release.tag_name}`,
+                  head: newBranch,
+                  base: 'main',
+                  body: `This PR updates the changelog with the latest release information from [${release.tag_name}](${release.html_url}).`
+                });
+                
+                console.log(`Created PR: ${pullRequest.html_url}`);
+              } catch (error) {
+                console.error(`Error updating changelog: ${error.message}`);
+                core.setFailed(`Error updating changelog: ${error.message}`);
+              }
+            }
+            
+            main(); 
