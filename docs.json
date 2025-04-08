@@ -11,25 +11,57 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
             "group": "Get Started",
             "pages": [
               "introduction",
-              "quickstart",
-              "development"
+              "quickstart"
             ]
           },
           {
-            "group": "Essentials",
+            "group": "Guides",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "guides/creating-torrents",
+              "guides/inspecting-torrents",
+              "guides/modifying-torrents",
+              "guides/checking-data",
+              "guides/updating"
+            ]
+          },
+          {
+            "group": "Features",
+            "pages": [
+              "features/presets",
+              "features/batch-mode",
+              "features/tracker-rules",
+              "features/season-packs",
+              "features/filtering"
+            ]
+          },
+          {
+            "group": "Performance",
+            "pages": [
+              "performance/benchmarks"
+            ]
+          },
+          {
+            "group": "CLI Reference",
+            "pages": [
+              "cli-reference/introduction",
+              "cli-reference/create",
+              "cli-reference/inspect",
+              "cli-reference/modify",
+              "cli-reference/check",
+              "cli-reference/update",
+              "cli-reference/version"
+            ]
+          },
+          {
+            "group": "Development",
+            "pages": [
+              "development"
             ]
           }
         ]
