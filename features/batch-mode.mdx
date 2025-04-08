@@ -4,10 +4,21 @@ Batch mode allows you to create multiple torrents from different source paths wi
 
 ## Configuration File (`batch.yaml`)
 
-Batch operations are defined in a YAML file, typically named `batch.yaml`. You specify this file using the `-b` (or `--batch`) flag with the `create` command.
+Batch operations are defined in a YAML file, typically named `batch.yaml`. `mkbrr` searches for this file in the following locations, using the first one it finds:
+
+1.  Path specified by the `-b` (or `--batch`) flag (if used).
+2.  The current working directory (`./batch.yaml`).
+3.  `~/.config/mkbrr/batch.yaml` (or equivalent user config directory).
+4.  `~/.mkbrr/batch.yaml` (legacy location).
+
+If the file is found automatically, you don't need to use the `-b` flag. If you use the flag, it overrides the automatic search.
 
 ```bash
-mkbrr create -b batch.yaml
+# If batch.yaml is in a standard location:
+mkbrr create
+
+# Or specify the path explicitly:
+mkbrr create -b /path/to/your/batch.yaml
 ```
 
 ### Structure
