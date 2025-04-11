@@ -315,8 +315,8 @@ jobs:
                 await exec.exec('git', ['add', changelogPath]);
                 await exec.exec('git', ['commit', '-m', `docs: update changelog for ${release.tag_name}`]);
                 
-                // Push to the repository
-                await exec.exec('git', ['push', 'origin', newBranch]);
+                // Push to the repository (force push to overwrite existing branch if needed)
+                await exec.exec('git', ['push', '--force', 'origin', newBranch]);
                 
                 // Create a pull request
                 const { data: pullRequest } = await octokit.pulls.create({
@@ -335,4 +335,4 @@ jobs:
               }
             }
             
-            main(); 
+            main();
