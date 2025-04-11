@@ -323,7 +323,7 @@ jobs:
                   owner: docsOwner,
                   repo: docsRepo,
                   title: `docs: update changelog for ${release.tag_name}`,
-                  head: `${docsOwner}:${newBranch}`, // Explicitly specify owner:branch
+                  head: newBranch, // Just use the branch name without owner prefix
                   base: 'main',
                   body: `This PR updates the changelog with the latest release information from [${release.tag_name}](${release.html_url}).`
                 });
@@ -331,6 +331,10 @@ jobs:
                 console.log(`Created PR: ${pullRequest.html_url}`);
               } catch (error) {
                 console.error(`Error updating changelog: ${error.message}`);
+                if (error.message === 'Not Found') {
+                  console.error('This could be due to permissions issues or repository configuration.');
+                  console.error('Make sure the GITHUB_TOKEN has the correct permissions to create PRs.');
+                }
                 core.setFailed(`Error updating changelog: ${error.message}`);
               }
             }
