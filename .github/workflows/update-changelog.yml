@@ -323,7 +323,7 @@ jobs:
                   owner: docsOwner,
                   repo: docsRepo,
                   title: `docs: update changelog for ${release.tag_name}`,
-                  head: newBranch,
+                  head: `${docsOwner}:${newBranch}`, // Explicitly specify owner:branch
                   base: 'main',
                   body: `This PR updates the changelog with the latest release information from [${release.tag_name}](${release.html_url}).`
                 });
