@@ -13,12 +13,16 @@ on:
 jobs:
   update-changelog:
     runs-on: ubuntu-latest
+    # Set explicit permissions at the job level
     permissions:
       contents: write
       pull-requests: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # Ensure we have permission to push back
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -31,11 +35,17 @@ jobs:
       - name: Update Changelog
         uses: actions/github-script@v7
         with:
+          # Use the same token we used for checkout
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const fs = require('fs');
             const { Octokit } = require('@octokit/rest');
-            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+            
+            // Create two Octokit instances:
+            // - One for external repo operations using PAT token
+            // - One for current repo operations using GITHUB_TOKEN
+            const externalOctokit = new Octokit({ auth: process.env.PAT_TOKEN });
+            const localOctokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
             
             // The project repo (where releases are published)
             const projectOwner = 'autobrr';
@@ -45,13 +55,15 @@ jobs:
             const docsOwner = context.repo.owner;
             const docsRepo = context.repo.repo;
             
+            console.log(`Documentation repo: ${docsOwner}/${docsRepo}`);
+            
             async function getRelease() {
               let tag;
               if (context.payload.inputs && context.payload.inputs.release_tag) {
                 tag = context.payload.inputs.release_tag;
                 console.log(`Using provided release tag: ${tag}`);
                 
-                const { data: release } = await octokit.repos.getReleaseByTag({
+                const { data: release } = await externalOctokit.repos.getReleaseByTag({
                   owner: projectOwner,
                   repo: projectRepo,
                   tag
@@ -59,7 +71,7 @@ jobs:
                 return release;
               } else {
                 console.log('Getting latest release');
-                const { data: release } = await octokit.repos.getLatestRelease({
+                const { data: release } = await externalOctokit.repos.getLatestRelease({
                   owner: projectOwner,
                   repo: projectRepo
                 });
@@ -70,7 +82,7 @@ jobs:
             async function getReleaseCommits(tagName) {
               try {
                 // Get all releases to find the previous one
-                const { data: releases } = await octokit.repos.listReleases({
+                const { data: releases } = await externalOctokit.repos.listReleases({
                   owner: projectOwner,
                   repo: projectRepo,
                   per_page: 100
@@ -96,7 +108,7 @@ jobs:
                 console.log(`Comparing ${previousTag}...${tagName}`);
                 
                 // Get the comparison between the two tags
-                const { data: comparison } = await octokit.repos.compareCommits({
+                const { data: comparison } = await externalOctokit.repos.compareCommits({
                   owner: projectOwner,
                   repo: projectRepo,
                   base: previousTag,
@@ -132,7 +144,7 @@ jobs:
               // Fetch PR details for each number
               for (const prNumber of prNumbers) {
                 try {
-                  const { data: pr } = await octokit.pulls.get({
+                  const { data: pr } = await externalOctokit.pulls.get({
                     owner: projectOwner,
                     repo: projectRepo,
                     pull_number: parseInt(prNumber)
@@ -318,17 +330,46 @@ jobs:
                 // Push to the repository (force push to overwrite existing branch if needed)
                 await exec.exec('git', ['push', '--force', 'origin', newBranch]);
                 
-                // Create a pull request
-                const { data: pullRequest } = await octokit.pulls.create({
-                  owner: docsOwner,
-                  repo: docsRepo,
-                  title: `docs: update changelog for ${release.tag_name}`,
-                  head: newBranch, // Just use the branch name without owner prefix
-                  base: 'main',
-                  body: `This PR updates the changelog with the latest release information from [${release.tag_name}](${release.html_url}).`
-                });
+                console.log('Attempting to create PR...');
                 
-                console.log(`Created PR: ${pullRequest.html_url}`);
+                try {
+                  // Use the GitHub API directly through github-script
+                  const prResult = await github.rest.pulls.create({
+                    owner: docsOwner,
+                    repo: docsRepo,
+                    title: `docs: update changelog for ${release.tag_name}`,
+                    head: newBranch,
+                    base: 'main',
+                    body: `This PR updates the changelog with the latest release information from [${release.tag_name}](${release.html_url}).`
+                  });
+                  
+                  console.log(`Successfully created PR: ${prResult.data.html_url}`);
+                } catch (prError) {
+                  console.error(`Error creating PR: ${prError.message}`);
+                  console.error(`Status: ${prError.status}`);
+                  console.error(`Details: `, prError);
+                  
+                  // Try an alternative method with full branch name
+                  try {
+                    console.log('Trying alternative PR creation method...');
+                    const fullBranchName = `${docsOwner}:${newBranch}`;
+                    console.log(`Using full branch name: ${fullBranchName}`);
+                    
+                    const prResult = await github.rest.pulls.create({
+                      owner: docsOwner,
+                      repo: docsRepo,
+                      title: `docs: update changelog for ${release.tag_name}`,
+                      head: fullBranchName,
+                      base: 'main',
+                      body: `This PR updates the changelog with the latest release information from [${release.tag_name}](${release.html_url}).`
+                    });
+                    
+                    console.log(`Successfully created PR: ${prResult.data.html_url}`);
+                  } catch (alternativeError) {
+                    console.error(`Alternative method also failed: ${alternativeError.message}`);
+                    throw new Error(`Failed to create PR: ${prError.message}`);
+                  }
+                }
               } catch (error) {
                 console.error(`Error updating changelog: ${error.message}`);
                 if (error.message === 'Not Found') {
@@ -340,3 +381,5 @@ jobs:
             }
             
             main();
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
