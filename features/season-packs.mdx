@@ -8,10 +8,7 @@ description: When creating a torrent from a directory, `mkbrr` includes a featur
 1.  **Season Detection:** `mkbrr` attempts to identify if the source directory or its files represent a TV season based on common naming patterns (e.g., `Show.Name.S01...`, `.../Season 02/...`, `...S03.Complete...`).
 2.  **Episode Extraction:** If a season is detected, it scans the video files (`.mkv`, `.mp4`) within the directory to extract episode numbers using patterns like `S01E01`, `S01E02E03`, `S01E05-E07`.
 3.  **Completeness Check:** It determines the highest episode number found (`MaxEpisode`) and compares it to the count of unique episodes identified.
-4.  **Warning Trigger:** A warning is displayed during torrent creation if the pack appears suspicious, specifically if:
-    *   3 or more episodes are missing, AND the highest episode number is 7 or greater.
-    *   OR, more than 50% of the episodes (from 1 to `MaxEpisode`) are missing.
-    *   OR, the highest episode number found is greater than the number of video files detected (often indicating missing files or inconsistent naming).
+4.  **Warning Trigger:** A warning is displayed during torrent creation if the pack appears suspicious, primarily when the highest episode number found (`MaxEpisode`) is greater than the number of video files detected. This often indicates missing files or inconsistent naming.
 
 ## Example Warning
 

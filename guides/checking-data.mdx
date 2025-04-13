@@ -11,7 +11,10 @@ mkbrr check <torrent-file> <content-path> [flags]
 ## Arguments
 
 -   `<torrent-file>`: (Required) The path to the `.torrent` file containing the expected piece hashes.
--   `<content-path>`: (Required) The path to the local file or directory containing the data to be checked. If the torrent is for a single file, this should be the path to that file. If the torrent is for a directory, this should be the path to that directory.
+-   `<content-path>`: (Required) The path to the local file or directory containing the data to be checked.
+    <Info>
+      Ensure the `<content-path>` points directly to the file if the torrent contains a single file, or to the containing directory if the torrent contains multiple files or a folder structure.
+    </Info>
 
 ## Flags
 
@@ -30,7 +33,7 @@ By default, the command provides a summary including:
 -   **Completion:** Percentage of pieces successfully verified against the local data.
 -   **Good pieces:** Number of pieces that match the hash in the torrent file.
 -   **Bad pieces:** Number of pieces where the local data hash does not match the torrent file.
--   **Missing files:** Lists any files specified in the torrent that are missing locally or have a size mismatch.
+-   **Missing files:** Lists any files specified in the torrent that are missing locally. Files that exist but have an incorrect size will be listed with ` (size mismatch)` appended to their name.
 -   **Check time:** Duration of the verification process.
 
 If `--verbose` is used, the indices of bad pieces are also listed.

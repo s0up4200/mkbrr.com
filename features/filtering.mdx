@@ -13,6 +13,7 @@ When creating a torrent from a directory, you can control which files are includ
 -   `.ds_store`
 -   `thumbs.db`
 -   `desktop.ini`
+-   `zone.identifier`
 
 ## `--exclude` Flag
 
@@ -30,7 +31,10 @@ mkbrr create /path/to/release/ -t ... --exclude "*.nfo,*sample*"
 
 ## `--include` Flag
 
-Use `--include` to specify patterns for files that *must* be included. If this flag is used, **only files matching these patterns will be included** in the torrent (in addition to the built-in exclusions still being applied).
+Use `--include` to specify patterns for files that *must* be included.
+<Warning>
+Using `--include` activates a strict whitelist. Only files matching these patterns are considered for inclusion; all other files (except those matching built-in exclusions) are ignored immediately.
+</Warning>
 
 -   You can use the flag multiple times: `--include "*.mkv" --include "*.mp4"`
 -   You can provide a comma-separated list: `--include "*.mkv,*.mp4,*.avi"`

@@ -19,6 +19,9 @@ This command supports creating torrents for single files or entire directories. 
 <ParamField path="--tracker, -t" type="string">
   (Required unless using a preset with trackers) The announce URL of the tracker.
 </ParamField>
+<Warning>
+  A tracker announce URL is essential for creating a functional torrent that can be shared. Ensure you provide one via the `-t` flag or through a preset.
+</Warning>
 
 <ParamField path="--private, -p" type="boolean" default="true">
   Mark the torrent as private. Most private trackers require this. Set to `false` for public torrents.
@@ -92,6 +95,19 @@ This command supports creating torrents for single files or entire directories. 
 <ParamField path="--quiet" type="boolean" default="false">
   Enable quiet mode, printing only the final torrent file path upon success. Overrides `--verbose`.
 </ParamField>
+
+## Handling Symbolic Links
+
+When `mkbrr create` encounters symbolic links (symlinks) within the source path:
+
+-   **Links are followed:** `mkbrr` reads the content of the file or directory the link points to (the target).
+-   **Target content is hashed:** The torrent pieces will contain the hash data of the *target* file's content.
+-   **Link path is stored:** The file path recorded inside the `.torrent` file's metadata will be the path of the *symbolic link itself*, relative to the source path, not the path of the target.
+
+This means the created torrent represents the file structure as it appears with the links, but the data integrity check (`mkbrr check`) will verify against the actual content pointed to by those links at the time of creation.
+<Warning>
+Important: When checking a torrent created with symlinks using `mkbrr check`, the check verifies against the *original target content* that was hashed during creation, not necessarily what the link points to currently if the target file has changed or been moved.
+</Warning>
 
 ## Examples
 

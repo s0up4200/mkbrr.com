@@ -37,7 +37,7 @@ By default, when a tracker URL is provided, the output filename will be prefixed
   Preset config file (default `~/.config/mkbrr/presets.yaml`).
 </ParamField>
 
-<ParamField query="--tracker, -t" type="string" required>
+<ParamField query="--tracker, -t" type="string">
   Tracker URL. Required unless using a preset with trackers defined.
 </ParamField>
 
@@ -78,7 +78,7 @@ By default, when a tracker URL is provided, the output filename will be prefixed
 </ParamField>
 
 <ParamField query="--entropy, -e" type="boolean" default={false}>
-  Randomize info hash by adding entropy field.
+  Randomize the torrent's info hash by adding a unique, random `entropy` key to the info dictionary before hashing. This is primarily useful for cross-seeding identical content on different trackers that might reject duplicate info hashes.
 </ParamField>
 
 <ParamField query="--verbose, -v" type="boolean" default={false}>

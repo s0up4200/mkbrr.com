@@ -11,6 +11,10 @@ When creating a torrent, `mkbrr` compares the provided tracker URL against an in
 2.  **Recommended Piece Size Ranges:** Selects a specific piece size based on the total content size, overriding the default automatic calculation (e.g., use 1 MiB pieces for content between 1-2 GB). If verbose mode (`-v`) is enabled, `mkbrr` will indicate when it's using a tracker-specific range.
 3.  **Maximum `.torrent` File Size:** If the generated `.torrent` file would exceed a tracker's limit (e.g., 250 KiB for Anthelion), `mkbrr` automatically attempts to increase the piece length (up to a practical maximum of 16 MiB / 2^24) to reduce the number of piece hashes and thus the overall file size. If the limit still cannot be met, creation will fail.
 
+<Warning>
+Note that tracker-specific rules for maximum piece length or piece size ranges will override values set manually using the `-l` or `-m` flags if the manual values conflict with the tracker's requirements. `mkbrr` prioritizes tracker compliance.
+</Warning>
+
 ## Handled Rules Summary
 
 Here's a summary of the rules `mkbrr` currently handles based on its internal configuration:

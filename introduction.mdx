@@ -16,12 +16,62 @@ description: "mkbrr: Fast, Simple Torrent Creation & Management"
   <Card title="Portable" icon="box-archive">
     Distributed as a single, dependency-free binary for easy deployment across platforms.
   </Card>
-  <Card title="Built with Go" icon="golang">
-    Leverages Go's performance, concurrency, and cross-platform compilation.
-  </Card>
   <Card title="Smart Features" icon="lightbulb">
     Includes automatic [tracker rule handling](/features/tracker-rules) and detection of potentially incomplete [season packs](/features/season-packs).
   </Card>
+  <Card title="Built with Go" icon="golang">
+    Leverages Go's performance, concurrency, and cross-platform compilation.
+  </Card>
 </CardGroup>
 
-Ready to get started? Head over to the [Installation](/installation) guide.
+## Common Use Cases
+
+<CardGroup cols={3}>
+  <Card title="Create Torrents" icon="plus">
+    Create torrents for single files or entire directories with optimal piece sizes.
+  </Card>
+  <Card title="Inspect Content" icon="eye">
+    Verify torrents and check downloaded data against .torrent files.
+  </Card>
+  <Card title="Batch Processing" icon="layer-group">
+    Create multiple torrents with different settings in a single command.
+  </Card>
+</CardGroup>
+
+## Quick Example
+
+```bash
+# Create a private torrent for a tracker
+mkbrr create path/to/your/content -t https://your-tracker.com/announce
+
+# Inspect a torrent file
+mkbrr inspect my-release.torrent
+
+# Batch create multiple torrents
+mkbrr create -b batch.yaml
+```
+
+## Technical Highlights
+
+<CardGroup cols={2}>
+  <Card title="Consistent Performance" icon="gauge">
+    Standard deviation between runs is only 0.25-3.7%, compared to up to 39% variance with other tools.
+  </Card>
+  <Card title="High-Speed Processing" icon="rocket">
+    21 GiB torrent creation in 7.24 seconds on Leaseweb SSD server, 6.27× faster than mktorrent.
+  </Card>
+  <Card title="Season Pack Analysis" icon="magnifying-glass">
+    Automated detection of missing episodes in TV season collections.
+  </Card>
+  <Card title="Tracker Rule Enforcement" icon="shield">
+    Built-in compliance with requirements for major private trackers.
+  </Card>
+</CardGroup>
+
+## Quick Start
+
+Ready to get started? Head over to the [Installation](/installation) guide to begin using mkbrr.
+
+<Info>
+  mkbrr is actively maintained and regularly updated with new features and improvements. Check the [Changelog](/changelog) for the latest updates.
+</Info>

@@ -1,0 +1,500 @@
+# mkbrr Documentation
+
+## Introduction
+
+### What is mkbrr?
+
+**mkbrr** (pronounced "make-burr") is a simple yet powerful command-line tool designed for creating, inspecting, and modifying `.torrent` files. It also intelligently handles specific requirements for various private trackers.
+
+### Why use mkbrr?
+
+- **Blazing Fast**: Optimized hashing performance that consistently beats other tools in benchmarks.
+- **Portable**: Distributed as a single, dependency-free binary for easy deployment across platforms.
+- **Built with Go**: Leverages Go's performance, concurrency, and cross-platform compilation.
+- **Smart Features**: Includes automatic tracker rule handling and detection of potentially incomplete season packs.
+
+## Installation
+
+### Pre-built Binaries
+
+#### Linux
+
+##### Generic (tar.gz)
+
+**amd64:**
+```bash
+# Download
+wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_x86_64 | cut -d\" -f4)
+
+# Extract (adjust path if needed)
+sudo tar -C /usr/local/bin -xzf mkbrr_*_linux_amd64.tar.gz mkbrr
+```
+
+**arm64:**
+```bash
+# Download
+wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_arm64.tar.gz | cut -d\" -f4)
+
+# Extract (adjust path if needed)
+sudo tar -C /usr/local/bin -xzf mkbrr_*_linux_arm64.tar.gz mkbrr
+```
+
+**arm:**
+```bash
+# Download
+wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_arm.tar.gz | grep -v arm64 | cut -d\" -f4)
+
+# Extract (adjust path if needed)
+sudo tar -C /usr/local/bin -xzf mkbrr_*_linux_arm.tar.gz mkbrr
+```
+
+##### Debian/Ubuntu (.deb)
+
+**amd64:**
+```bash
+# Download
+wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_amd64.deb | cut -d\" -f4)
+
+# Install
+sudo dpkg -i mkbrr_*_linux_amd64.deb
+```
+
+**arm64:**
+```bash
+# Download
+wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_arm64.deb | cut -d\" -f4)
+
+# Install
+sudo dpkg -i mkbrr_*_linux_arm64.deb
+```
+
+**armv6:**
+```bash
+# Download
+wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_armv6.deb | cut -d\" -f4)
+
+# Install
+sudo dpkg -i mkbrr_*_linux_armv6.deb
+```
+
+##### Fedora/CentOS (.rpm)
+
+**amd64:**
+```bash
+# Download
+wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_amd64.rpm | cut -d\" -f4)
+
+# Install
+sudo rpm -i mkbrr_*_linux_amd64.rpm
+```
+
+**arm64:**
+```bash
+# Download
+wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_arm64.rpm | cut -d\" -f4)
+
+# Install
+sudo rpm -i mkbrr_*_linux_arm64.rpm
+```
+
+**armv6:**
+```bash
+# Download
+wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_armv6.rpm | cut -d\" -f4)
+
+# Install
+sudo rpm -i mkbrr_*_linux_armv6.rpm
+```
+
+##### Alpine (.apk)
+
+**amd64:**
+```bash
+# Download
+wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_amd64.apk | cut -d\" -f4)
+
+# Install
+sudo apk add --allow-untrusted mkbrr_*_linux_amd64.apk
+```
+
+**arm64:**
+```bash
+# Download
+wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_arm64.apk | cut -d\" -f4)
+
+# Install
+sudo apk add --allow-untrusted mkbrr_*_linux_arm64.apk
+```
+
+**armv6:**
+```bash
+# Download
+wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_armv6.apk | cut -d\" -f4)
+
+# Install
+sudo apk add --allow-untrusted mkbrr_*_linux_armv6.apk
+```
+
+#### macOS
+
+##### Apple Silicon (arm64)
+```bash
+# Download
+wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep darwin_arm64.tar.gz | cut -d\" -f4)
+
+# Extract (adjust path if needed)
+sudo tar -C /usr/local/bin -xzf mkbrr_*_darwin_arm64.tar.gz mkbrr
+```
+
+##### Intel (x86_64)
+```bash
+# Download
+wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep darwin_x86_64.tar.gz | cut -d\" -f4)
+
+# Extract (adjust path if needed)
+sudo tar -C /usr/local/bin -xzf mkbrr_*_darwin_x86_64.tar.gz mkbrr
+```
+
+**Note for macOS:**
+- Ensure the extraction directory (e.g., `/usr/local/bin`) is in your system's `PATH`.
+- You might need to grant execution permissions: `chmod +x /usr/local/bin/mkbrr`.
+- If you encounter issues with macOS Gatekeeper, run: `xattr -d com.apple.quarantine /usr/local/bin/mkbrr`.
+
+#### Windows
+
+Download the `mkbrr_*_windows_x86_64.zip` file from the [GitHub Releases page](https://github.com/autobrr/mkbrr/releases/latest).
+
+Using PowerShell (requires `curl`):
+```powershell
+# Download (Uses Invoke-RestMethod for reliable JSON parsing)
+$releaseInfo = Invoke-RestMethod -Uri "https://api.github.com/repos/autobrr/mkbrr/releases/latest"
+$url = $releaseInfo.assets | Where-Object { $_.name -like '*windows_x86_64.zip' } | Select-Object -ExpandProperty browser_download_url
+curl -L -o mkbrr_latest_windows_x86_64.zip $url
+
+# Extract
+Expand-Archive -Path mkbrr_latest_windows_x86_64.zip -DestinationPath .\\mkbrr_extracted -Force
+```
+
+After downloading and extracting:
+1. Locate the `mkbrr.exe` file inside the extracted folder.
+2. Move `mkbrr.exe` to a directory that is included in your system's `PATH` environment variable (e.g., `C:\Program Files\mkbrr`).
+3. Alternatively, add the directory containing `mkbrr.exe` to your system or user `PATH` variable through System Properties -> Environment Variables.
+
+### Homebrew (macOS/Linux)
+
+If you use Homebrew, you can install `mkbrr` with these commands:
+
+```bash
+brew tap autobrr/mkbrr
+brew install mkbrr
+```
+
+### Go Install
+
+If you have Go installed (version 1.23 or later recommended), you can install `mkbrr` using:
+
+```bash
+go install github.com/autobrr/mkbrr@latest
+```
+
+Ensure that your Go binary path (`$(go env GOPATH)/bin`) is included in your system's `PATH` environment variable:
+```bash
+export PATH=$PATH:$(go env GOPATH)/bin
+source ~/.zshrc
+```
+
+## Quick Start
+
+### Creating Your First Torrent
+
+Once installed, you can create torrents using the `mkbrr create` command.
+
+### Private Torrent (Default)
+
+Most private trackers require torrents to be marked as private. This is the default behavior.
+
+```bash
+mkbrr create path/to/your/content -t https://your-tracker.com/announce
+```
+This command creates a `.torrent` file (e.g., `your-tracker_content.torrent`) in the current directory.
+
+### Public Torrent
+
+For public trackers, use the `--private=false` flag.
+
+```bash
+mkbrr create path/to/your/content -t udp://tracker.opentrackr.org:1337/announce --private=false
+```
+This creates a public `.torrent` file.
+
+## Usage Guides
+
+### Creating Torrents
+
+The `mkbrr create` command is used to generate new `.torrent` files from local files or directories.
+
+```bash
+mkbrr create [path] [flags]
+```
+
+This command supports creating torrents for single files or entire directories. It also integrates with Presets and Batch Mode for more advanced workflows.
+
+#### Arguments
+- `[path]`: (Required unless using `-b`) The path to the source file or directory you want to create a torrent from.
+
+#### Flags
+- `--tracker, -t`: (Required unless using a preset with trackers) The announce URL of the tracker.
+- `--private, -p`: Mark the torrent as private. Most private trackers require this. Set to `false` for public torrents.
+- `--output, -o`: Specify a custom output path and filename for the `.torrent` file.
+- `--comment, -c`: Add a text comment to the torrent metadata.
+- `--piece-length, -l`: Manually set the piece size exponent (2^n bytes).
+- `--max-piece-length, -m`: Limit the maximum automatically calculated piece size exponent.
+- `--web-seed, -w`: Add one or more web seed URLs (HTTP/HTTPS) to the torrent.
+- `--source, -s`: Embed a "source" tag within the torrent's info dictionary.
+- `--exclude`: Specify glob patterns for files/folders to exclude from the torrent.
+- `--include`: Specify glob patterns for files/folders to include.
+- `--entropy, -e`: Adds a random string to the torrent's info dictionary.
+- `--no-date, -d`: Do not write the creation date metadata into the torrent file.
+- `--no-creator`: Do not write the "Created by" metadata.
+- `--skip-prefix`: Do not add the tracker domain prefix to the default output filename.
+- `--preset, -P`: Use a predefined preset from your configuration file.
+- `--preset-file`: Specify a custom path to the `presets.yaml` configuration file.
+- `--batch, -b`: Use a batch configuration file (YAML) to create multiple torrents.
+- `--verbose, -v`: Enable verbose output.
+- `--quiet`: Enable quiet mode, printing only the final torrent file path upon success.
+
+### Inspecting Torrents
+
+The `mkbrr inspect` command allows you to view the metadata and file structure contained within a `.torrent` file.
+
+```bash
+mkbrr inspect <torrent-file> [flags]
+```
+
+#### Arguments
+- `<torrent-file>`: (Required) The path to the `.torrent` file you want to inspect.
+
+#### Flags
+- `--verbose, -v`: Show all metadata fields found in the torrent file.
+
+#### Output
+The command displays:
+- Name
+- Hash
+- Size
+- Piece length
+- Pieces
+- Trackers
+- Web seeds
+- Private flag
+- Source tag
+- Comment
+- Created by
+- Created on
+- Files count
+
+### Modifying Torrents
+
+The `mkbrr modify` command allows you to update metadata in existing `.torrent` files.
+
+```bash
+mkbrr modify [torrent files...] [flags]
+```
+
+#### Arguments
+- `[torrent files...]`: (Required) One or more paths to the `.torrent` files you want to modify.
+
+#### Flags
+- `--tracker, -t`: Set a new announce URL for the torrent.
+- `--private, -p`: Explicitly set the private flag in the torrent.
+- `--output, -o`: Specify a custom output filename.
+- `--output-dir`: Specify a directory where the modified `.torrent` files should be saved.
+- `--comment, -c`: Set or replace the comment in the torrent metadata.
+- `--web-seed, -w`: Set or replace the web seed URLs.
+- `--source, -s`: Set or replace the "source" tag.
+- `--entropy, -e`: Adds/updates a random string in the torrent's info dictionary.
+- `--no-date, -d`: Remove the creation date metadata.
+- `--no-creator`: Remove the "Created by" metadata.
+- `--preset, -P`: Apply settings from a predefined preset.
+- `--preset-file`: Specify a custom path to the `presets.yaml` configuration file.
+- `--dry-run, -n`: Show which files would be modified without actually writing any new files.
+- `--verbose, -v`: Enable verbose output.
+- `--quiet`: Enable quiet mode.
+
+### Checking Data Integrity
+
+The `mkbrr check` command verifies if the local files or directory match the data defined in a `.torrent` file.
+
+```bash
+mkbrr check <torrent-file> <content-path> [flags]
+```
+
+#### Arguments
+- `<torrent-file>`: (Required) The path to the `.torrent` file containing the expected piece hashes.
+- `<content-path>`: (Required) The path to the local file or directory containing the data to be checked.
+
+#### Flags
+- `--verbose, -v`: Show the indices of any pieces that failed the hash check.
+- `--quiet`: Reduced output mode.
+
+## Features
+
+### Presets
+
+Presets allow you to define and reuse common sets of options for creating or modifying torrents.
+
+#### Configuration File (`presets.yaml`)
+
+Presets are defined in a YAML file named `presets.yaml`. The file follows this structure:
+
+```yaml
+version: 1
+
+default:
+  private: true
+  no_date: true
+  no_creator: false
+  skip_prefix: false
+
+presets:
+  preset-name-1:
+    trackers:
+      - "https://tracker-one.com/announce/..."
+    source: "TRACKER1"
+    comment: "Uploaded via mkbrr"
+    private: true
+    exclude_patterns:
+      - "*.nfo"
+      - "*sample*"
+```
+
+### Batch Mode
+
+Batch mode allows you to create multiple torrents from different source paths with varying settings in a single command execution.
+
+#### Configuration File (`batch.yaml`)
+
+```yaml
+version: 1
+jobs:
+  - output: /path/to/output/movie.torrent
+    path: /path/to/source/movie.mkv
+    trackers:
+      - https://tracker-one.com/announce/abc
+    private: true
+    comment: "My Movie"
+    source: "Source1"
+```
+
+### Tracker Rules
+
+`mkbrr` includes built-in knowledge about the specific requirements of various private trackers.
+
+#### How it Works
+When creating a torrent, `mkbrr` compares the provided tracker URL against an internal list of configurations and applies relevant rules regarding:
+1. Maximum Piece Length
+2. Recommended Piece Size Ranges
+3. Maximum `.torrent` File Size
+
+### Season Packs
+
+When creating a torrent from a directory, `mkbrr` includes a feature to help detect potentially incomplete TV season packs.
+
+#### How it Works
+1. Season Detection
+2. Episode Extraction
+3. Completeness Check
+4. Warning Trigger
+
+### Filtering
+
+When creating a torrent from a directory, you can control which files are included using the `--include` and `--exclude` flags.
+
+#### Built-in Exclusions
+- `.torrent`
+- `.ds_store`
+- `thumbs.db`
+- `desktop.ini`
+
+#### Precedence Rules
+1. Built-in Exclusions
+2. `--include` Check
+3. `--exclude` Check
+4. Default
+
+## Performance
+
+### Benchmark Results
+
+| Hardware                  | Test Size | mkbrr                | mktorrent | torrenttools | torf  |
+| :------------------------ | :-------- | :------------------- | :-------- | :----------- | :---- |
+| **Leaseweb Server (SSD)** | 21 GiB    | **7.24s**            | 45.41s    | 9.07s        | 8.85s |
+| **Hetzner Server (HDD)**  | 14 GiB    | **41.02s**           | 68.17s    | 47.97s       | 58.19s|
+| **Macbook Pro M4 (NVME)** | 30 GiB    | **9.71s**            | 10.90s    | -            | 9.78s |
+
+## Development
+
+### Prerequisites
+- Go: Version 1.23 or higher
+- Git
+- Make
+
+### Building from Source
+1. Clone the repository
+2. Build the binary
+3. Install the binary
+
+### Running Tests
+- Standard tests
+- Tests with race detection
+- Large tests
+- Tests with coverage
+
+### Linting
+Check the code for style issues and potential errors using `golangci-lint`.
+
+## Changelog
+
+### v1.8.0 (2025-04-11)
+- Add check command
+- Correct multi-episode season pack detection
+- Handle filepath.Match errors
+
+### v1.7.0 (2024-04-04)
+- Support include patterns
+- Update README.md
+- Add benchmarks to readme
+
+### v1.6.1 (2024-03-29)
+- Fix update: replace selfupdater lib with fork
+
+### v1.6.0 (2024-03-28)
+- Add skip-prefix flag
+- Support explicit tracker selection
+
+### v1.3.0 (2024-03-04)
+- Use tracker domain as prefix
+- Add torrent-syndikat tracker
+- Add incomplete season pack detection
+
+### v1.2.0 (2024-03-02)
+- Add Homebrew formula
+- Add v flag for extra metadata
+- Add limits per tracker
+- Optimize piece hashing and buffer management
+
+### v1.1.0 (2024-02-14)
+- Add modify command
+- Add self-update command
+- Add max_piece_length flag
+
+### v1.0.0 (2024-01-31)
+- Improve install target
+- Update preset examples
+
+### v0.2.0 (2024-01-28)
+- Improve output duration
+- Add preset support
+- Batch processing
+
+[Additional documentation sections will be added as they are processed...] 

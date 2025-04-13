@@ -34,6 +34,9 @@ Note: All unnecessary metadata will be stripped during modification.
 <ParamField query="--output, -o" type="string">
   Custom output filename (without extension).
 </ParamField>
+<Warning>
+  When modifying multiple torrents, using `--output` with a fixed filename will cause subsequent files to overwrite the previous ones. Use `--output-dir` instead for batch modifications to preserve all modified files with unique names.
+</Warning>
 
 <ParamField query="--no-date, -d" type="boolean" default={false}>
   Don't update creation date (otherwise, it's set to the current time).
@@ -64,7 +67,7 @@ Note: All unnecessary metadata will be stripped during modification.
 </ParamField>
 
 <ParamField query="--entropy, -e" type="boolean" default={false}>
-  Randomize info hash by adding/updating an entropy field.
+  Randomize the torrent's info hash by adding or updating a unique, random `entropy` key in the info dictionary before hashing. This is primarily useful for cross-seeding identical content on different trackers that might reject duplicate info hashes.
 </ParamField>
 
 <ParamField query="--verbose, -v" type="boolean" default={false}>
@@ -78,3 +81,6 @@ Note: All unnecessary metadata will be stripped during modification.
 <ParamField query="--dry-run, -n" type="boolean" default={false}>
   Show what would be modified without making changes.
 </ParamField>
+<Tip>
+  It's highly recommended to use `--dry-run` first to preview the intended changes before modifying your torrent files permanently.
+</Tip>

@@ -90,7 +90,10 @@ mkbrr modify *.torrent -P preset-name-2
 
 ## Overriding Presets
 
-Command-line flags take precedence over preset settings. If you use a flag that corresponds to a preset option, the flag's value will be used.
+Command-line flags take precedence over preset settings. If you use a flag that corresponds to a preset option, the flag's value will be used instead of the value defined in the preset.
+<Warning>
+Remember: Command-line flags always override settings defined in the selected preset.
+</Warning>
 
 ```bash
 # Use 'preset-name-1', but override the source tag

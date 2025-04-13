@@ -29,12 +29,18 @@ description: 'Information on building mkbrr from source, running tests, and cont
 
 
 3.  **Install the binary:**
-    This command installs the built binary into your `$GOPATH/bin` directory or `/usr/local/bin` if run as root. Ensure the target directory is in your system's `PATH`.
+    This command installs the built binary into your `$GOPATH/bin` directory or `/usr/local/bin` if run as root.
+    <Info>
+      Ensure the target directory (`$GOPATH/bin` or `/usr/local/bin`) is included in your system's `PATH` environment variable so you can run `mkbrr` from any location.
+    </Info>
     ```bash
     # Install to $GOPATH/bin
     make install
 
-    # Or install system-wide (requires sudo)
+    # Or install system-wide
+    <Warning>
+      System-wide installation typically requires administrator privileges (`sudo`).
+    </Warning>
     sudo make install
     ```
 
@@ -56,7 +62,10 @@ The `Makefile` provides several targets for running tests:
 Info: Race reports, if any, are saved to `race_report.log`
 </Info>
 
--   **Run large tests (resource intensive, requires `-tags=large_tests`):**
+-   **Run large tests:**
+    <Warning>
+      These tests are resource-intensive (high CPU/memory usage) and require the `large_tests` build tag.
+    </Warning>
     ```bash
     make test-large
     ```
