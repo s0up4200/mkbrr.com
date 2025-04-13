@@ -1,23 +1,46 @@
-# `mkbrr check`
+---
+title: check
+description: 'Verify the integrity of content against a torrent file.'
+---
 
-Verify the integrity of content against a torrent file. Checks if the data in the specified content path (file or directory) matches the pieces defined in the torrent file.
+## Usage
 
 ```bash
-Usage:
   mkbrr check <torrent-file> <content-path> [flags]
 ```
 
 ## Arguments
 
--   `<torrent-file>`: (Required) Path to the `.torrent` file.
--   `<content-path>`: (Required) Path to the directory or file containing the data.
+-   `<torrent-file>`: Path to the `.torrent` file. (Required)
+-   `<content-path>`: Path to the directory or file containing the data to check. (Required)
 
 ## Flags
 
-<ParamField path="--verbose, -v" type="boolean" default="false">
-  Show list of bad piece indices.
+<ParamField query="--verbose, -v" type="boolean" default={false}>
+  Show a list of bad piece indices if any are found.
 </ParamField>
 
-<ParamField path="--quiet" type="boolean" default="false">
-  Reduced output mode (prints only completion percentage).
+<ParamField query="--quiet" type="boolean" default={false}>
+  Reduced output mode. Only prints the completion percentage.
 </ParamField>
+
+<ParamField query="--help, -h" type="boolean" default={false}>
+  Display help for the `check` command.
+</ParamField>
+
+## Examples
+
+### Basic Check
+
+Verify the content in `my_download_folder` against `my_torrent.torrent`:
+
+<Terminal text="mkbrr check my_torrent.torrent my_download_folder" />
+
+### Verbose Check
+
+Verify content and show indices of any bad pieces:
+
+<Terminal text="mkbrr check -v my_torrent.torrent /path/to/data" />
+
+### Quiet Check
+<Terminal text="mkbrr check --quiet my_torrent.torrent /path/to/data" />

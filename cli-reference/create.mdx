@@ -1,15 +1,23 @@
-# `mkbrr create`
+---
+title: create
+description: 'Create a new torrent file from a file or directory.'
+---
 
-Create a new torrent file from a file or directory.
+## Usage
 
 ```bash
-Usage:
   mkbrr create /path/to/content [flags]
 ```
 
-Supports both single file/directory and batch mode using a YAML config file.
-Supports presets for commonly used settings.
-When a tracker URL is provided, the output filename will use the tracker domain (without TLD) as prefix by default (e.g. "example_filename.torrent"). This behavior can be disabled with `--skip-prefix`.
+<Note>
+Create torrents in two modes:
+- Single file/directory mode (default)
+- [Batch mode](/features/batch-mode) using a YAML config file
+
+Common settings can be saved and reused with [presets](/features/presets).
+
+By default, when a tracker URL is provided, the output filename will be prefixed with the tracker domain (e.g. "example_filename.torrent"). Use `--skip-prefix` to disable this behavior.
+</Note>
 
 ## Arguments
 
@@ -17,81 +25,81 @@ When a tracker URL is provided, the output filename will use the tracker domain 
 
 ## Flags
 
-<ParamField path="--batch, -b" type="string">
+<ParamField query="--batch, -b" type="string">
   Batch config file (YAML). Cannot be used with a path argument.
 </ParamField>
 
-<ParamField path="--preset, -P" type="string">
+<ParamField query="--preset, -P" type="string">
   Use preset from config. Requires a path argument.
 </ParamField>
 
-<ParamField path="--preset-file" type="string">
+<ParamField query="--preset-file" type="string">
   Preset config file (default `~/.config/mkbrr/presets.yaml`).
 </ParamField>
 
-<ParamField path="--tracker, -t" type="string">
+<ParamField query="--tracker, -t" type="string" required>
   Tracker URL. Required unless using a preset with trackers defined.
 </ParamField>
 
-<ParamField path="--web-seed, -w" type="string[]">
+<ParamField query="--web-seed, -w" type="array">
   Add web seed URLs. Can be used multiple times.
 </ParamField>
 
-<ParamField path="--private, -p" type="boolean" default="true">
+<ParamField query="--private, -p" type="boolean" default={true}>
   Make torrent private.
 </ParamField>
 
-<ParamField path="--comment, -c" type="string">
+<ParamField query="--comment, -c" type="string">
   Add comment.
 </ParamField>
 
-<ParamField path="--piece-length, -l" type="uint">
+<ParamField query="--piece-length, -l" type="number">
   Set piece length to 2^n bytes (16-27, automatic if not specified).
 </ParamField>
 
-<ParamField path="--max-piece-length, -m" type="uint">
+<ParamField query="--max-piece-length, -m" type="number">
   Limit maximum automatically calculated piece length to 2^n bytes (16-27, unlimited if not specified).
 </ParamField>
 
-<ParamField path="--output, -o" type="string">
+<ParamField query="--output, -o" type="string">
   Set output path (default: `<name>.torrent` or `<tracker-prefix>_<name>.torrent`).
 </ParamField>
 
-<ParamField path="--source, -s" type="string">
+<ParamField query="--source, -s" type="string">
   Add source string.
 </ParamField>
 
-<ParamField path="--no-date, -d" type="boolean" default="false">
+<ParamField query="--no-date, -d" type="boolean" default={false}>
   Don't write creation date.
 </ParamField>
 
-<ParamField path="--no-creator" type="boolean" default="false">
+<ParamField query="--no-creator" type="boolean" default={false}>
   Don't write creator string.
 </ParamField>
 
-<ParamField path="--entropy, -e" type="boolean" default="false">
+<ParamField query="--entropy, -e" type="boolean" default={false}>
   Randomize info hash by adding entropy field.
 </ParamField>
 
-<ParamField path="--verbose, -v" type="boolean" default="false">
+<ParamField query="--verbose, -v" type="boolean" default={false}>
   Be verbose.
 </ParamField>
 
-<ParamField path="--quiet" type="boolean" default="false">
+<ParamField query="--quiet" type="boolean" default={false}>
   Reduced output mode (prints only final torrent path).
 </ParamField>
 
-<ParamField path="--skip-prefix" type="boolean" default="false">
+<ParamField query="--skip-prefix" type="boolean" default={false}>
   Don't add tracker domain prefix to output filename.
 </ParamField>
 
-<ParamField path="--exclude" type="string[]">
+<ParamField query="--exclude" type="array">
   Exclude files matching these patterns (e.g., `"*.nfo,*.jpg"` or `--exclude "*.nfo" --exclude "*.jpg"`).
 </ParamField>
 
-<ParamField path="--include" type="string[]">
+<ParamField query="--include" type="array">
   Include only files matching these patterns (e.g., `"*.mkv,*.mp4"` or `--include "*.mkv" --include "*.mp4"`).
 </ParamField>
 
 {/* Hidden development flag */}
-{/* <ParamField path="--cpuprofile" type="string"> write cpu profile to file </ParamField> */}
+{/* <ParamField query="--cpuprofile" type="string"> write cpu profile to file </ParamField> */}
