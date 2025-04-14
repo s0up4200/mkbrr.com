@@ -17,25 +17,12 @@ description: "mkbrr: Fast, Simple Torrent Creation & Management"
     Distributed as a single, dependency-free binary for easy deployment across platforms.
   </Card>
   <Card title="Smart Features" icon="lightbulb">
-    Includes automatic [tracker rule handling](/features/tracker-rules) and detection of potentially incomplete [season packs](/features/season-packs).
+    Includes support for reusable [presets](/features/presets) and [batch mode](/features/batch-mode) operations.
   </Card>
   <Card title="Built with Go" icon="golang">
     Leverages Go's performance, concurrency, and cross-platform compilation.
   </Card>
 </CardGroup>
-
-## Quick Example
-
-```bash
-# Create a private torrent for a tracker
-mkbrr create path/to/your/content -t https://your-tracker.com/announce
-
-# Inspect a torrent file
-mkbrr inspect my-release.torrent
-
-# Batch create multiple torrents
-mkbrr create -b batch.yaml
-```
 
 ## Technical Highlights
 
