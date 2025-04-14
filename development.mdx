@@ -12,87 +12,28 @@ icon: code-pull-request
 
 ## Building from Source
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/autobrr/mkbrr.git
-    cd mkbrr
-    ```
+Clone the repository and build the binary:
 
-2.  **Build the binary:**
-    This command compiles the `mkbrr` binary into the `build/` directory.
-    ```bash
-    make build
-    ```
-    *Optional: Build with Profile-Guided Optimization (PGO) after generating a profile (see `Makefile` for `make profile` details):*
-    ```bash
-    make build-pgo
-    ```
-
-
-3.  **Install the binary:**
-    This command installs the built binary into your `$GOPATH/bin` directory or `/usr/local/bin` if run as root.
-    <Info>
-      Ensure the target directory (`$GOPATH/bin` or `/usr/local/bin`) is included in your system's `PATH` environment variable so you can run `mkbrr` from any location.
-    </Info>
-    ```bash
-    # Install to $GOPATH/bin
-    make install
-
-    # Or install system-wide
-    <Warning>
-      System-wide installation typically requires administrator privileges (`sudo`).
-    </Warning>
-    sudo make install
-    ```
-
-## Running Tests
-
-The `Makefile` provides several targets for running tests:
-
--   **Run standard tests:**
-    ```bash
-    make test
-    ```
-
--   **Run tests with race detection:**
-    ```bash
-    make test-race
-    ```
+```bash
+git clone https://github.com/autobrr/mkbrr.git
+cd mkbrr
+make build
+```
 
 <Info>
-Info: Race reports, if any, are saved to `race_report.log`
+  The built binary will be placed in the `build/` directory.
 </Info>
 
--   **Run large tests:**
-    <Warning>
-      These tests are resource-intensive (high CPU/memory usage) and require the `large_tests` build tag.
-    </Warning>
-    ```bash
-    make test-large
-    ```
+## Common Development Tasks
 
--   **Run tests with coverage:**
-    Generates `coverage.txt` and `coverage.html`.
-    ```bash
-    make test-coverage
-    ```
+- **Build:** `make build`
+- **Test with race conditions:** `make test-race`
+- **Lint:** `make lint`
+- **Clean:** `make clean`
 
-## Linting
-
-Check the code for style issues and potential errors using `golangci-lint`:
-
-```bash
-make lint
-```
-*(This will automatically install `golangci-lint` if it's not found.)*
-
-## Cleaning
-
-Remove build artifacts and generated files:
-
-```bash
-make clean
-```
+<Info>
+  For a full list of available commands, run `make help` or check the `Makefile`.
+</Info>
 
 ## License
 
