@@ -70,6 +70,7 @@ presets:
 -   `source`: Source tag string.
 -   `no_date`: `true` to omit creation date, `false` to include/update it.
 -   `no_creator`: `true` to omit creator string, `false` to include/update it.
+-   `entropy`: `true` to randomize the torrent's info hash by adding a unique, random key to the info dictionary before hashing (useful for cross-seeding identical content on trackers that reject duplicate info hashes). Defaults to `false`.
 -   `skip_prefix`: `true` to prevent adding the tracker domain prefix to the output filename.
 -   `exclude_patterns`: List of glob patterns to exclude files.
 -   `include_patterns`: List of glob patterns to include files (takes precedence over exclude).
