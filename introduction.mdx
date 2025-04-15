@@ -4,9 +4,17 @@ description: "mkbrr: Fast, Simple Torrent Creation & Management"
 icon: hand-wave
 ---
 
-## What is mkbrr?
+<div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', marginTop: '-2rem' }}>
+  <div style={{ flex: '1 1 0%' }}>
+    ## What is mkbrr?
 
-**mkbrr** (pronounced "make-burr") is a simple yet powerful command-line tool designed for creating, inspecting, and modifying `.torrent` files. It also intelligently handles specific requirements for various private trackers.
+    **mkbrr** (pronounced "make-burr") is a simple yet powerful command-line tool designed for creating, inspecting, and modifying `.torrent` files. It also intelligently handles specific requirements for various private trackers.
+  </div>
+    <div style={{ flex: '0 0 auto' }}>
+    <img noZoom className="block h-48 dark:hidden" src="/images/mkbrr-light.png" onContextMenu={(e) => e.preventDefault()} draggable="false" />
+    <img noZoom className="hidden h-48 dark:block" src="/images/mkbrr-dark.png" onContextMenu={(e) => e.preventDefault()} draggable="false" />
+  </div>
+</div>
 
 ## Why use mkbrr?
 
@@ -24,6 +32,10 @@ icon: hand-wave
     Leverages Go's performance, concurrency, and cross-platform compilation.
   </Card>
 </CardGroup>
+
+<Callout type="tip">
+  use presets to save time and ensure tracker compliance when creating torrents for different sites. [Learn more](/features/presets)
+</Callout>
 
 ## Technical Highlights
 
@@ -49,16 +61,18 @@ Getting started with mkbrr is simple. First, follow the installation guide to se
 <CardGroup cols={2}>
   <Card
     title="Installation Guide"
-    description="Step-by-step instructions to install mkbrr on your platform."
     href="/installation"
     icon="download"
-  />
+  >
+  Step-by-step instructions to install mkbrr on your platform.
+  </Card>
   <Card
     title="Usage Guide"
-    description="Learn how to create, inspect, and manage torrents with mkbrr."
     href="/guides"
     icon="book-open"
-  />
+  >
+  Learn how to create, inspect, and manage torrents with mkbrr.
+  </Card>
 </CardGroup>
 
 <Info>
