@@ -9,8 +9,9 @@ icon: hand-wave
     ## What is mkbrr?
 
     **mkbrr** (pronounced "make-burr") is a simple yet powerful command-line tool designed for creating, inspecting, and modifying `.torrent` files. It also intelligently handles specific requirements for various private trackers.
+
   </div>
-    <div style={{ flex: '0 0 auto' }}>
+  <div style={{ flex: '0 0 auto' }}>
     <img noZoom className="block h-48 dark:hidden" src="/images/mkbrr-light.png" onContextMenu={(e) => e.preventDefault()} draggable="false" />
     <img noZoom className="hidden h-48 dark:block" src="/images/mkbrr-dark.png" onContextMenu={(e) => e.preventDefault()} draggable="false" />
   </div>
@@ -50,27 +51,31 @@ icon: hand-wave
   </Card>
 </CardGroup>
 
-## How do I get started?
+## Getting Started
 
-Getting started with mkbrr is simple. First, follow the installation guide to set up mkbrr on your system. Once installed, check out the usage guide to learn how to create and manage torrents efficiently.
+<Steps>
+  <Step title="Install mkbrr" icon="download">
+    Follow our [installation guide](/installation) to set up mkbrr on your system.
+  </Step>
+  
+  <Step title="Create Your First Torrent" icon="wand-magic-sparkles">
+    ```bash
+    # Basic usage
+    mkbrr create "path/to/data" -o my.torrent
+    
+    # With a tracker
+    mkbrr create "path/to/data" -o my.torrent --announce "http://tracker.url"
+    ```
+  </Step>
+  
+  <Step title="Learn More" icon="book">
+    Check out our [guides](/guides) to learn about advanced features:
+    - [Creating torrents](/guides/creating-torrents)
+    - [Using presets](/features/presets)
+    - [Batch operations](/features/batch-mode)
+  </Step>
+</Steps>
 
-<CardGroup cols={2}>
-  <Card
-    title="Installation Guide"
-    href="/installation"
-    icon="download"
-  >
-  Step-by-step instructions to install mkbrr on your platform.
-  </Card>
-  <Card
-    title="Usage Guide"
-    href="/guides"
-    icon="book-open"
-  >
-  Learn how to create, inspect, and manage torrents with mkbrr.
-  </Card>
-</CardGroup>
-
-<Info>
-  mkbrr is actively maintained and regularly updated with new features and improvements. Check the [Changelog](/changelog) for the latest updates.
-</Info>
+<Note>
+  mkbrr is actively maintained and regularly updated. Join our [Discord](https://discord.gg/WQ2eUycxyT) community and check the [Changelog](/changelog) for updates.
+</Note>

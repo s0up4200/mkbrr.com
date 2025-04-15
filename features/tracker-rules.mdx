@@ -4,35 +4,50 @@ description: mkbrr includes built-in knowledge about the specific requirements o
 icon: shield
 ---
 
+<Note>
+mkbrr automatically detects tracker requirements based on the announce URL and applies the appropriate rules to ensure your torrents are compliant.
+</Note>
+
 ## How it Works
 
-When creating a torrent, `mkbrr` compares the provided tracker URL against an internal list of configurations. If a match is found, it applies the corresponding rules regarding:
+When creating a torrent, `mkbrr` compares the provided tracker URL against an internal list of configurations. If a match is found, it applies the corresponding rules:
 
-1.  **Maximum Piece Length:** Enforces an upper limit on the piece size (e.g., 16 MiB, 8 MiB). If automatic calculation or a manually specified piece length (`-l`, `-m`) exceeds this limit, `mkbrr` caps it at the tracker's maximum.
-2.  **Recommended Piece Size Ranges:** Selects a specific piece size based on the total content size, overriding the default automatic calculation (e.g., use 1 MiB pieces for content between 1-2 GB). If verbose mode (`-v`) is enabled, `mkbrr` will indicate when it's using a tracker-specific range.
-3.  **Maximum `.torrent` File Size:** If the generated `.torrent` file would exceed a tracker's limit (e.g., 250 KiB for Anthelion), `mkbrr` automatically attempts to increase the piece length (up to a practical maximum of 16 MiB / 2^24) to reduce the number of piece hashes and thus the overall file size. If the limit still cannot be met, creation will fail.
+<CardGroup cols={3}>
+  <Card title="Piece Length" icon="puzzle-piece">
+    Enforces maximum piece size limits specific to each tracker (e.g., 16 MiB, 8 MiB).
+  </Card>
+  <Card title="Size Ranges" icon="ruler">
+    Selects optimal piece sizes based on content size using tracker-specific guidelines.
+  </Card>
+  <Card title="File Size" icon="file">
+    Ensures the .torrent file stays within tracker size limits by adjusting piece length.
+  </Card>
+</CardGroup>
 
 <Warning>
-Note that tracker-specific rules for maximum piece length or piece size ranges will override values set manually using the `-l` or `-m` flags if the manual values conflict with the tracker's requirements. `mkbrr` prioritizes tracker compliance.
+Tracker-specific rules override manual settings (`-l` or `-m` flags) to ensure compliance. mkbrr always prioritizes tracker requirements.
 </Warning>
 
-## Handled Rules Summary
+## Implemented Trackers
 
-Here's a summary of the rules `mkbrr` currently handles based on its internal configuration:
-
-*   **Max Piece Length:**
-    *   **64 MiB (2^26):** GGN
-    *   **16 MiB (2^24):** HDB, BHD, PTP, SBS, TS, BTN, NB
-    *   **8 MiB (2^23):** EMP, MTV
-*   **Piece Size Ranges:** Specific ranges based on content size are used for trackers like PTP, GGN, NB, BTN, TS. (See source code below for details).
-*   **Max Torrent Size:**
-    *   **250 KiB:** ANT
-    *   **1 MiB:** GGN
-
-## Configuration Source (`internal/trackers/trackers.go`)
-
-The specific rules and tracker URLs are defined within the `mkbrr` source code in the `trackerConfigs` variable. You can view the exact configuration below or directly in the [GitHub repository](https://github.com/autobrr/mkbrr/blob/main/internal/trackers/trackers.go).
+Below is a list of implemented trackers and their specific requirements:
 
 <Info>
-This configuration is subject to change as tracker rules evolve. Contributions to keep this list accurate are welcome via pull requests to the `mkbrr` repository.
+The tracker rules are maintained in the [mkbrr source code](https://github.com/autobrr/mkbrr/blob/main/internal/trackers/trackers.go). Contributions to keep rules updated are welcome via pull requests.
 </Info>
+
+| Tracker | Piece Ranges | Max Piece Size | Max Torrent Size |
+|---------|-------------|----------------|------------------|
+| ANT | Default | 16 MiB | 250 KiB |
+| HDB | Default | 16 MiB | - |
+| BHD | Default | 16 MiB | - |
+| SBS | Default | 16 MiB | - |
+| PTP | Custom | 16 MiB | - |
+| EMP | Default | 8 MiB | - |
+| MTV | Default | 8 MiB | - |
+| GGN | Custom | 64 MiB | 1 MiB |
+| SP | Custom | 128 MiB | - |
+| NB | Custom | 16 MiB | - |
+| BTN | Custom | 16 MiB | - |
+| TSYNDIKAT | Custom | 16 MiB | - |
+

@@ -1,9 +1,160 @@
 ---
 title: Modifying torrents
+description: Learn how to update metadata in existing .torrent files using the mkbrr modify command
 icon: pen-to-square
 ---
 
 The `mkbrr modify` command allows you to update metadata in existing `.torrent` files without needing access to the original content files. This is useful for batch-updating trackers, source tags, comments, or other metadata.
+
+<CodeGroup>
+  <Code title="Command">
+  ```bash
+  mkbrr modify [torrent files...] [flags]
+  ```
+  </Code>
+</CodeGroup>
+
+<CardGroup>
+  <Card title="Arguments" icon="list-check" href="#arguments">
+    Required command arguments
+  </Card>
+  <Card title="Flags" icon="flag" href="#flags">
+    Available modification options
+  </Card>
+  <Card title="Examples" icon="code" href="#examples">
+    Common usage examples
+  </Card>
+</CardGroup>
+
+<Info>
+  By default, the original torrent files are preserved. New, modified files are created with a prefix based on the tracker domain (e.g., `tracker-domain_original-name.torrent`). You can customize the output filename or directory.
+</Info>
+
+<Warning>
+  The `modify` command strips all non-standard metadata during the process to ensure clean output.
+</Warning>
+
+## Arguments
+
+<ParamField path="torrent files..." type="string[]" required>
+  One or more paths to the `.torrent` files you want to modify. Glob patterns (like `*.torrent`) can be used if your shell supports them.
+</ParamField>
+
+## Flags
+
+<Tabs>
+  <Tab title="Core Options">
+    <ParamField path="--tracker, -t" type="string">
+      Set a new announce URL for the torrent. This will replace the existing tracker(s).
+    </ParamField>
+
+    <ParamField path="--private, -p" type="boolean" default="true">
+      Explicitly set the private flag in the torrent. Use `--private=false` to make it public.
+    </ParamField>
+
+    <ParamField path="--source, -s" type="string">
+      Set or replace the "source" tag in the torrent's info dictionary.
+    </ParamField>
+
+    <ParamField path="--comment, -c" type="string">
+      Set or replace the comment in the torrent metadata.
+    </ParamField>
+  </Tab>
+
+  <Tab title="Output Control">
+    <ParamField path="--output, -o" type="string">
+      Specify a custom output filename (without the `.torrent` extension).
+    </ParamField>
+    <Info>
+      When modifying multiple files, this pattern might lead to overwrites unless it includes variables or is used with `--output-dir`.
+    </Info>
+
+    <ParamField path="--output-dir" type="string">
+      Specify a directory where the modified `.torrent` files should be saved.
+    </ParamField>
+
+    <ParamField path="--dry-run, -n" type="boolean" default="false">
+      Show which files would be modified and what changes would be applied without actually writing any new files.
+    </ParamField>
+  </Tab>
+
+  <Tab title="Advanced">
+    <ParamField path="--web-seed, -w" type="string[]">
+      Set or replace the web seed URLs. Use the flag multiple times for multiple URLs (e.g., `-w url1 -w url2`).
+    </ParamField>
+
+    <ParamField path="--entropy, -e" type="boolean" default="false">
+      Adds/updates a random string in the torrent's info dictionary to change the info hash. Useful for cross-seeding.
+    </ParamField>
+
+    <ParamField path="--preset, -P" type="string">
+      Apply settings from a predefined preset in your configuration file *before* applying other flags. See [Presets](/features/presets).
+    </ParamField>
+
+    <ParamField path="--preset-file" type="string">
+      Specify a custom path to the `presets.yaml` configuration file.
+    </ParamField>
+  </Tab>
+
+  <Tab title="Metadata Control">
+    <ParamField path="--no-date, -d" type="boolean" default="false">
+      Remove the creation date metadata from the torrent file.
+    </ParamField>
+    <Tip>
+      If this flag is *not* used, the creation date will be updated to the current time during modification.
+    </Tip>
+
+    <ParamField path="--no-creator" type="boolean" default="false">
+      Remove the "Created by" metadata from the torrent file.
+    </ParamField>
+    <Tip>
+      If this flag is *not* used, the creator field will be updated to reflect the current `mkbrr` version.
+    </Tip>
+
+    <ParamField path="--verbose, -v" type="boolean" default="false">
+      Enable verbose output, showing detailed torrent information after modification.
+    </ParamField>
+
+    <ParamField path="--quiet" type="boolean" default="false">
+      Enable quiet mode, printing only the final modified torrent paths upon success. Overrides `--verbose`.
+    </ParamField>
+  </Tab>
+</Tabs>
+
+## Examples
+
+<Tabs>
+  <Tab title="Basic Usage">
+    Update the tracker for a single torrent:
+    ```bash
+    mkbrr modify original.torrent --tracker https://new-tracker.com/announce
+    ```
+    <Info>Outputs: `new-tracker_original.torrent`</Info>
+
+    Make multiple torrents public:
+    ```bash
+    mkbrr modify *.torrent --private=false
+    ```
+    <Info>Outputs: `modified_file1.torrent`, `modified_file2.torrent`, etc.</Info>
+  </Tab>
+
+  <Tab title="Advanced Usage">
+    Add a source tag and save to a specific directory:
+    ```bash
+    mkbrr modify /downloads/*.torrent --source "MySource" --output-dir /modified-torrents/
+    ```
+
+    Apply a preset and then add entropy:
+    ```bash
+    mkbrr modify old-preset.torrent -P newpreset -e
+    ```
+
+    Preview changes without saving:
+    ```bash
+    mkbrr modify my.torrent --tracker https://new.co/a --comment "Updated" --dry-run
+    ```
+  </Tab>
+</Tabs>
 
 ```bash
 mkbrr modify [torrent files...] [flags]
@@ -80,31 +231,3 @@ By default, the original torrent files are preserved. New, modified files are cr
 <ParamField path="--quiet" type="boolean" default="false">
   Enable quiet mode, printing only the final modified torrent paths upon success. Overrides `--verbose`.
 </ParamField>
-
-## Examples
-
-**Update the tracker for a single torrent:**
-```bash
-mkbrr modify original.torrent --tracker https://new-tracker.com/announce
-```
-*(Outputs: `new-tracker_original.torrent`)*
-
-**Make multiple torrents public:**
-```bash
-mkbrr modify *.torrent --private=false
-```
-*(Outputs: `modified_file1.torrent`, `modified_file2.torrent`, etc.)*
-
-**Add a source tag and save to a specific directory:**
-```bash
-mkbrr modify /downloads/*.torrent --source "MySource" --output-dir /modified-torrents/
-```
-
-**Apply a preset and then add entropy:**
-```bash
-mkbrr modify old-preset.torrent -P newpreset -e
-```
-
-**See what changes would be made without saving:**
-```bash
-mkbrr modify my.torrent --tracker https://new.co/a --comment "Updated" --dry-run

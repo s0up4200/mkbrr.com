@@ -4,77 +4,164 @@ description: Batch mode allows you to create multiple torrents from different so
 icon: layer-group
 ---
 
+<Note>
+Batch mode is ideal for creating multiple torrents in one go.
+</Note>
+
 ## Configuration File (`batch.yaml`)
 
 Batch operations are defined in a YAML file, typically named `batch.yaml`.
 
-```bash
+<CodeGroup>
+```bash Command
 mkbrr create -b /path/to/your/batch.yaml
 ```
+
+```yaml Example batch.yaml
+# yaml-language-server: $schema=https://raw.githubusercontent.com/autobrr/mkbrr/main/schema/batch.json
+version: 1
+jobs:
+  - output: /torrents/movie1.torrent
+    path: /media/movies/movie1.mkv
+    trackers:
+      - https://tracker-one.com/announce/abc
+    private: true
+    comment: "4K HDR Release"
+    source: "UHD"
+
+  - output: /torrents/movie2.torrent
+    path: /media/movies/movie2.mkv
+    trackers:
+      - https://tracker-one.com/announce/abc
+    private: true
+    comment: "1080p Release"
+    source: "BluRay"
+```
+</CodeGroup>
 
 <Tip>
 While `batch.yaml` is a common convention, you can use any filename. Just be sure to specify it with `-b`.
 </Tip>
 
-### Structure
+### Configuration Structure
 
-The `batch.yaml` file defines a list of jobs:
-
+<Tabs>
+  <Tab title="Movies Example">
 ```yaml
-# yaml-language-server: $schema=https://raw.githubusercontent.com/autobrr/mkbrr/main/schema/batch.json
-version: 1
 jobs:
-  # Job 1: Create a torrent for a single file
-  - output: /path/to/output/movie.torrent # Output .torrent file path
-    path: /path/to/source/movie.mkv       # Source file path
+  - output: /torrents/movie1.torrent
+    path: /media/movies/movie1.mkv
     trackers:
       - https://tracker-one.com/announce/abc
     private: true
-    comment: "My Movie"
-    source: "Source1"
-
-  # Job 2: Create a torrent for a directory
-  - output: /path/to/output/album.torrent
-    path: /path/to/source/album-directory/
+    comment: "4K HDR Release"
+    source: "UHD"
+    
+  - output: /torrents/movie2.torrent
+    path: /media/movies/movie2.mkv
+    trackers:
+      - https://tracker-one.com/announce/abc
+    private: true
+    comment: "1080p Release"
+    source: "BluRay"
+    
+  - output: /torrents/movie3.torrent
+    path: /media/movies/movie3.mkv
+    trackers:
+      - https://tracker-one.com/announce/abc
+    private: true
+    comment: "720p Release"
+    source: "WEB"
+```
+  </Tab>
+  <Tab title="TV Shows Example">
+```yaml
+jobs:
+  - output: /torrents/show_s01.torrent
+    path: /media/tv/Show/Season 1/
     trackers:
       - udp://tracker-two.org:6969/announce
-    private: false # Public torrent
+    private: true
     piece_length: 18 # 256 KiB pieces
+    comment: "Complete Season 1"
+    exclude_patterns:
+      - "*.nfo"
+      - "*.jpg"
+      
+  - output: /torrents/show_s02.torrent
+    path: /media/tv/Show/Season 2/
+    trackers:
+      - udp://tracker-two.org:6969/announce
+    private: true
+    piece_length: 18
+    comment: "Complete Season 2"
+    exclude_patterns:
+      - "*.nfo"
+      - "*.jpg"
+```
+  </Tab>
+  <Tab title="Mixed Content">
+```yaml
+jobs:
+  - output: /torrents/album.torrent
+    path: /media/music/Artist/Album/
+    trackers:
+      - udp://tracker-three.org:6969/announce
+    private: false
+    piece_length: 18
     webseeds:
       - http://seed.example.com/album/
     exclude_patterns:
       - "*.log"
-      - "cover.jpg"
-
-  # Add more jobs as needed...
+      - "folder.jpg"
+      
+  - output: /torrents/game.torrent
+    path: /media/games/Game.iso
+    trackers:
+      - https://tracker-four.com/announce
+    private: true
+    piece_length: 22 # 4 MiB pieces
+    source: "RETAIL"
+    
+  - output: /torrents/ebook.torrent
+    path: /media/books/Book.pdf
+    trackers:
+      - https://tracker-five.com/announce
+    private: true
+    comment: "PDF + Extras"
 ```
+  </Tab>
+</Tabs>
 
--   **`version`**: Must be `1`.
--   **`jobs`**: A list of individual torrent creation tasks. Each job requires:
-    -   `output`: The full path where the resulting `.torrent` file should be saved.
-    -   `path`: The full path to the source file or directory for this job.
--   **Optional Job Settings**: Each job can also include any of the following options, which correspond to the flags available in the standard `mkbrr create` command:
-    -   `trackers`: List of announce URLs.
-    -   `webseeds`: List of web seed URLs.
-    -   `private`: `true` or `false`.
-    -   `piece_length`: Piece size exponent (e.g., `18` for 256 KiB).
-    -   `comment`: Torrent comment string.
-    -   `source`: Source tag string.
-    -   `no_date`: `true` to omit creation date.
-    -   `exclude_patterns`: List of glob patterns to exclude files within this job's source path.
-    -   `include_patterns`: List of glob patterns to include files within this job's source path.
+### Configuration Options
 
+<CardGroup cols={2}>
+  <Card title="Required Fields" icon="asterisk">
+    - **version**: Must be `1`
+    - **jobs**: List of torrent creation tasks
+    - **output**: Path for the `.torrent` file
+    - **path**: Source file/directory path
+  </Card>
+  <Card title="Optional Settings" icon="question">
+    - **trackers**: Announce URLs list
+    - **webseeds**: Web seed URLs list
+    - **private**: Set to `true` or `false`
+    - **piece_length**: Piece size exponent
+  </Card>
+</CardGroup>
+
+<Accordion title="Additional Optional Settings">
+- **comment**: Torrent comment string
+- **source**: Source tag string
+- **no_date**: Set `true` to omit creation date
+- **exclude_patterns**: Glob patterns to exclude files
+- **include_patterns**: Glob patterns to include files
+</Accordion>
+
+<Tip>
 You can find the formal JSON schema for validation [here](https://raw.githubusercontent.com/autobrr/mkbrr/main/schema/batch.json).
+</Tip>
 
-## Execution
-
-When you run `mkbrr create -b <your-config.yaml>`, `mkbrr` will:
-
-1.  Validate the configuration file.
-2.  Process the jobs concurrently (up to 4 jobs at a time by default) for efficiency.
-3.  Create the specified `.torrent` files at their respective `output` paths.
-4.  Display a summary of successful and failed jobs, along with total size and processing time. If run with `-v` (verbose), it shows detailed results for each job.
-
-<Note>
+<Info>
 You cannot provide a source path argument directly to `mkbrr create` when using the `-b` flag. All source paths must be defined within the batch file jobs.
-</Note>
+</Info>
