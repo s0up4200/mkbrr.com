@@ -1,33 +1,108 @@
 ---
 title: Quick Start
-description: "Get started quickly by creating your first torrent file."
+description: "Common use cases and examples for creating torrents."
 icon: rabbit-running
 ---
 
-## Creating Your First Torrent
+## Common Use Cases
 
-Once installed, you can create torrents using the `mkbrr create` command.
+<Tabs>
+  <Tab title="Private Trackers">
+    ```bash
+    # Basic private tracker torrent (default)
+    mkbrr create "Movie.2024.1080p.BluRay.x264" -t https://your-tracker.com/announce
+    
+    # With custom piece size
+    mkbrr create "Movie.2024.1080p.BluRay.x264" -t https://your-tracker.com/announce --piece-size 24
+    
+    # With source and comment
+    mkbrr create "Movie.2024.1080p.BluRay.x264" -t https://your-tracker.com/announce --source "BluRay" --comment "Great quality!"
+    ```
+    
+    <Note>
+      All torrents are private by default - perfect for private trackers.
+    </Note>
+  </Tab>
+  
+  <Tab title="Public Trackers">
+    ```bash
+    # Basic public tracker torrent
+    mkbrr create "Linux.ISO" -t udp://tracker.opentrackr.org:1337/announce --private=false
+    
+    # Multiple public trackers
+    mkbrr create "Linux.ISO" -t udp://tracker1.com,udp://tracker2.com --private=false
+    ```
+    
+    <Note>
+      Use `--private=false` for public trackers. You can specify multiple trackers with commas.
+    </Note>
+  </Tab>
+</Tabs>
 
-### Private Torrent (Default)
+## Smart Defaults
 
-Most private trackers require torrents to be marked as private. This is the default behavior.
+mkbrr automatically handles many settings for you:
 
-```bash
-mkbrr create path/to/your/content -t https://your-tracker.com/announce
-```
-This command creates a `.torrent` file (e.g., `your-tracker_content.torrent`) in the current directory.
+<CardGroup cols={2}>
+  <Card title="Piece Size" icon="puzzle-piece">
+    Automatically calculated based on content size for optimal performance
+  </Card>
+  <Card title="File Name" icon="file">
+    Generated from tracker domain and content name if not specified
+  </Card>
+</CardGroup>
 
-### Public Torrent
+## Common Options
 
-For public trackers, use the `--private=false` flag.
+<Accordion title="Frequently Used Flags">
+  ```bash
+  --announce, -t     # Tracker URL
+  --output, -o      # Output file name
+  --piece-size      # Manual piece size (power of 2)
+  --source          # Source tag
+  --comment         # Torrent comment
+  --private         # Private flag (default: true)
+  ```
+</Accordion>
 
-```bash
-mkbrr create path/to/your/content -t udp://tracker.opentrackr.org:1337/announce --private=false
-```
-This creates a public `.torrent` file.
+## Troubleshooting
+
+<Accordion title="Common Issues">
+  ### Permission Denied
+  ```bash
+  sudo chmod +x ./mkbrr  # Make binary executable
+  ```
+  
+  ### Invalid Piece Size
+  Piece size must be a power of 2 between 14 and 28:
+  ```bash
+  # Valid sizes: 14(16KiB), 15(32KiB), 16(64KiB)...28(256MiB)
+  mkbrr create data -t tracker.url --piece-size 16
+  ```
+  
+  ### Multiple Files
+  For directories, ensure you point to the parent folder:
+  ```bash
+  mkbrr create "Season.1/" -t tracker.url  # Correct
+  mkbrr create "Season.1/*" -t tracker.url # Wrong
+  ```
+</Accordion>
 
 ## Next Steps
 
-To learn more about `mkbrr`'s capabilities:
-- Explore detailed usage in the [Usage](/guides/creating-torrents) section.
-- Discover advanced functionalities in the [Features](/features/presets) section.
+<CardGroup cols={2}>
+  <Card
+    title="Creating Torrents"
+    icon="wand-magic-sparkles"
+    href="/guides/creating-torrents"
+  >
+    Learn about advanced torrent creation options
+  </Card>
+  <Card
+    title="Tracker Rules"
+    icon="shield"
+    href="/features/tracker-rules"
+  >
+    Understand tracker-specific requirements
+  </Card>
+</CardGroup>

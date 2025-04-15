@@ -1,47 +1,113 @@
 ---
 title: Benchmarks
 description: mkbrr is optimized for speed and consistently outperforms other popular torrent creation tools in our benchmarks.
-icon: chart-simple-horizontal
+icon: chart-line
 ---
 
-## Benchmark Methodology
+<Note>
+All benchmarks were performed using [hyperfine](https://github.com/sharkdp/hyperfine) with 5 runs per tool after a warm-up run.
+</Note>
 
-All tests were performed using [hyperfine](https://github.com/sharkdp/hyperfine) with 5 runs per tool after a warm-up run. Cache was cleared between runs on the servers, but not on the Macbook.
+## Performance Overview
 
-## Benchmark Results
+<CardGroup cols={3}>
+  <Card title="SSD Performance" icon="bolt">
+    **7.24s** for 21 GiB
+    <Icon icon="arrow-trend-up" color="#22c55e" /> 6.27× faster than mktorrent
+  </Card>
+  <Card title="HDD Performance" icon="hard-drive">
+    **41.02s** for 14 GiB
+    <Icon icon="arrow-trend-up" color="#22c55e" /> 1.66× faster than closest
+  </Card>
+  <Card title="Apple Silicon" icon="apple">
+    **9.71s** for 30 GiB
+    <Icon icon="arrow-trend-up" color="#22c55e" /> 1.12× faster than closest
+  </Card>
+</CardGroup>
 
-| Hardware                  | Test Size | mkbrr                | mktorrent | torrenttools | torf  |
-| :------------------------ | :-------- | :------------------- | :-------- | :----------- | :---- |
-| **Leaseweb Server (SSD)** | 21 GiB    | **7.24s**            | 45.41s    | 9.07s        | 8.85s |
-| **Hetzner Server (HDD)**  | 14 GiB    | **41.02s**           | 68.17s    | 47.97s       | 58.19s|
-| **Macbook Pro M4 (NVME)** | 30 GiB    | **9.71s**            | 10.90s    | -            | 9.78s |
+## Detailed Results
 
-## Consistency
+<Tabs>
+  <Tab title="SSD Performance">
+    <CardGroup cols={2}>
+      <Card title="Hardware" icon="server">
+        **Leaseweb Dedicated Server**
+        - <Icon icon="microchip" /> Intel Xeon E-2274G @ 4.00GHz
+        - <Icon icon="memory" /> 32GB RAM
+        - <Icon icon="hard-drive" /> SAMSUNG MZQL21T9HCJR-00A07 1.92TB SSD
+      </Card>
+      <Card title="Test Results" icon="chart-simple">
+        21 GiB 1080p season pack:
+        - <Icon icon="rabbit" color="#22c55e" /> mkbrr: **7.24s**
+        - <Icon icon="turtle" color="#94a3b8" /> torrenttools: 9.07s
+        - <Icon icon="turtle" color="#94a3b8" /> torf: 8.85s
+        - <Icon icon="turtle" color="#94a3b8" /> mktorrent: 45.41s
+      </Card>
+    </CardGroup>
+  </Tab>
+  
+  <Tab title="HDD Performance">
+    <CardGroup cols={2}>
+      <Card title="Hardware" icon="server">
+        **Hetzner Dedicated Server**
+        - <Icon icon="microchip" /> AMD Ryzen 5 3600 (12) @ 4.71GHz
+        - <Icon icon="memory" /> 64GB RAM
+        - <Icon icon="hard-drive" /> 4 × TOSHIBA MG08ACA16TEY in RAID0
+      </Card>
+      <Card title="Test Results" icon="chart-simple">
+        14 GiB 1080p season pack:
+        - <Icon icon="rabbit" color="#22c55e" /> mkbrr: **41.02s**
+        - <Icon icon="turtle" color="#94a3b8" /> torrenttools: 47.97s
+        - <Icon icon="turtle" color="#94a3b8" /> torf: 58.19s
+        - <Icon icon="turtle" color="#94a3b8" /> mktorrent: 68.17s
+      </Card>
+    </CardGroup>
+  </Tab>
+  
+  <Tab title="Apple Silicon">
+    <CardGroup cols={2}>
+      <Card title="Hardware" icon="laptop">
+        **Macbook Pro M4**
+        - <Icon icon="apple" /> Apple M4
+        - <Icon icon="memory" /> 16GB RAM
+        - <Icon icon="microchip" /> 512GB NVME
+      </Card>
+      <Card title="Test Results" icon="chart-simple">
+        30 GiB 1080p season pack:
+        - <Icon icon="rabbit" color="#22c55e" /> mkbrr: **9.71s**
+        - <Icon icon="turtle" color="#94a3b8" /> torf: 9.78s
+        - <Icon icon="turtle" color="#94a3b8" /> mktorrent: 10.90s
+      </Card>
+    </CardGroup>
+  </Tab>
+</Tabs>
 
-Besides raw speed, `mkbrr` shows more consistent performance between runs, with standard deviation percentages between 0.25-3.7% across platforms compared to much higher variances for other tools (up to 39%). This predictable performance is particularly noticeable on mechanical storage where other tools showed wider fluctuations.
+## Performance Consistency
 
-## Hardware Specifications
+<Info>
+mkbrr shows great consistency with standard deviation between 0.25-3.7% across platforms, compared to up to 39% variance in other tools.
+</Info>
 
-### Leaseweb Dedicated Server (SSD)
-- CPU: Intel Xeon E-2274G @ 4.00GHz
-- RAM: 32GB
-- Storage: 1 × SAMSUNG MZQL21T9HCJR-00A07 1.92TB SSD
+<CardGroup cols={2}>
+  <Card title="Mechanical Storage" icon="hard-drive">
+    Other tools showed significant fluctuations on HDD:
+    - <Icon icon="chart-line-down" /> mktorrent: 39.1% variance
+    - <Icon icon="chart-line-down" /> torrenttools: 22.0% variance
+    - <Icon icon="chart-line" /> torf: 9.9% variance
+    - <Icon icon="chart-line" color="#22c55e" /> mkbrr: **2.4% variance**
+  </Card>
+  <Card title="SSD Storage" icon="memory">
+    All tools performed more consistently on SSD:
+    - <Icon icon="chart-line" /> mktorrent: 0.36% variance
+    - <Icon icon="chart-line" /> torrenttools: 1.02% variance
+    - <Icon icon="chart-line" /> torf: 0.87% variance
+    - <Icon icon="chart-line" color="#22c55e" /> mkbrr: **0.25% variance**
+  </Card>
+</CardGroup>
 
-### Hetzner Dedicated Server (HDD)
-- CPU: AMD Ryzen 5 3600 (12) @ 4.71GHz
-- RAM: 64GB
-- Storage: 4 × TOSHIBA MG08ACA16TEY in RAID0
+## Detailed Benchmark Data
 
-### Macbook Pro M4
-- CPU: Apple M4
-- RAM: 16GB
-- Storage: 512GB NVME
-
-## Full Results
-
-<AccordionGroup>
-  <Accordion title="View Full Benchmark Commands & Results">
-
+<Accordion title="View Raw Benchmark Commands & Results" icon="terminal">
 ### Leaseweb Server (21 GiB 1080p season pack)
 
 ```bash
@@ -52,7 +118,10 @@ hyperfine --warmup 1 --runs 5 \
   'mktorrent /home/user/torrents/qbittorrent/Show.S01.DL.1080p.WEB.H264-GROUP' \
   'torrenttools create --threads 8 ~/torrents/qbittorrent/Show.S01.DL.1080p.WEB.H264-GROUP' \
   'torf --threads 8 /home/user/torrents/qbittorrent/Show.S01.DL.1080p.WEB.H264-GROUP'
+```
 
+<Accordion title="View Results">
+```plaintext
 # Benchmark 1: mkbrr create ...
 #   Time (mean ± σ):      7.244 s ±  0.018 s    [User: 31.245 s, System: 7.554 s]
 #   Range (min … max):    7.225 s …  7.270 s    5 runs
@@ -75,6 +144,7 @@ hyperfine --warmup 1 --runs 5 \
 #     1.25 ± 0.01 times faster than 'torrenttools create ...'
 #     6.27 ± 0.03 times faster than 'mktorrent ...'
 ```
+</Accordion>
 
 ### Hetzner Server (14 GiB 1080p season pack)
 
@@ -86,7 +156,10 @@ hyperfine --warmup 1 --runs 5 \
   'mktorrent ~/torrents/qbittorrent/tv/Show.S01.1080p.SRC.WEB-DL.DDP5.1.H.264-GRP' \
   'torrenttools create --threads 12 ~/torrents/qbittorrent/tv/Show.S01.1080p.SRC.WEB-DL.DDP5.1.H.264-GRP' \
   'torf --threads 12 ~/torrents/qbittorrent/tv/Show.S01.1080p.SRC.WEB-DL.DDP5.1.H.264-GRP'
+```
 
+<Accordion title="View Results">
+```plaintext
 # Benchmark 1: mkbrr create ...
 #   Time (mean ± σ):     41.022 s ±  0.979 s    [User: 13.691 s, System: 6.747 s]
 #   Range (min … max):   39.938 s … 42.467 s    5 runs
@@ -109,6 +182,7 @@ hyperfine --warmup 1 --runs 5 \
 #     1.42 ± 0.15 times faster than 'torf --threads 12 ...'
 #     1.66 ± 0.65 times faster than 'mktorrent ...'
 ```
+</Accordion>
 
 ### Macbook Pro M4 (30 GiB 1080p season pack)
 
@@ -118,7 +192,10 @@ hyperfine --warmup 1 --runs 5 \
   'mkbrr create ~/Desktop/Show.S01.1080p.SRC.WEB-DL.DDP5.1.H.264-GRP' \
   'mktorrent ~/Desktop/Show.S01.1080p.SRC.WEB-DL.DDP5.1.H.264-GRP' \
   'torf --threads 10 ~/Desktop/Show.S01.1080p.SRC.WEB-DL.DDP5.1.H.264-GRP'
+```
 
+<Accordion title="View Results">
+```plaintext
 # Benchmark 1: mkbrr create ...
 #   Time (mean ± σ):      9.708 s ±  0.355 s    [User: 10.823 s, System: 4.297 s]
 #   Range (min … max):    9.479 s … 10.323 s    5 runs
@@ -136,5 +213,5 @@ hyperfine --warmup 1 --runs 5 \
 #     1.01 ± 0.09 times faster than 'torf --threads 10 ...'
 #     1.12 ± 0.08 times faster than 'mktorrent ...'
 ```
-  </Accordion>
-</AccordionGroup>
+</Accordion>
+</Accordion>

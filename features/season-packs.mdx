@@ -4,37 +4,77 @@ description: When creating a torrent from a directory, `mkbrr` includes a featur
 icon: tv-retro
 ---
 
-## How it Works
+<Note>
+mkbrr analyzes video files in your directory to detect missing episodes in TV season packs, helping prevent incomplete uploads.
+</Note>
 
-1.  **Season Detection:** `mkbrr` attempts to identify if the source directory or its files represent a TV season based on common naming patterns (e.g., `Show.Name.S01...`, `.../Season 02/...`, `...S03.Complete...`).
-2.  **Episode Extraction:** If a season is detected, it scans the video files (`.mkv`, `.mp4`) within the directory to extract episode numbers using patterns like `S01E01`, `S01E02E03`, `S01E05-E07`.
-3.  **Completeness Check:** It determines the highest episode number found (`MaxEpisode`) and compares it to the count of unique episodes identified.
-4.  **Warning Trigger:** A warning is displayed during torrent creation if the pack appears suspicious, primarily when the highest episode number found (`MaxEpisode`) is greater than the number of video files detected. This often indicates missing files or inconsistent naming.
+<CardGroup cols={2}>
+  <Card title="Video Files" icon="film">
+    Only analyzes files with these extensions:
+    - `.mkv`
+    - `.mp4`
+  </Card>
+  <Card title="Episode Patterns" icon="list-ol">
+    Detects episode numbers from:
+    - Single: `S01E01`
+    - Range: `S01E01-E03`
+    - Multi: `S01E01E02`
+  </Card>
+</CardGroup>
 
-## Example Warning
+<AccordionGroup>
+  <Accordion title="Season Detection Patterns" icon="magnifying-glass">
+    mkbrr looks for season numbers in directory and file names using these patterns:
 
-If `mkbrr` suspects missing episodes, you will see a warning like this during the `mkbrr create` process:
+    ```plaintext
+    Show.S01.Complete
+    Show.Season.01
+    Show.S01
+    [S01]
+    /Season 01/
+    /S01/
+    Show.S01.1080p
+    Season 01/
+    ```
 
-```plaintext
-Files being hashed:
-  ├─ Kyles.Original.Sins.S01E01.Business.and.Pleasure.1080p.SRC.WEB-DL.DDP5.1.H.264.mkv (3.3 GiB)
-  ├─ Kyles.Original.Sins.S01E02.Putting.It.Back.In.1080p.SRC.WEB-DL.DDP5.1.H.264.mkv (3.4 GiB)
-  └─ Kyles.Original.Sins.S01E04.Cursor.For.Life.1080p.SRC.WEB-DL.DDP5.1.H.264.mkv (3.3 GiB)
+    <Info>
+    Season detection is case-insensitive and handles various separators (dots, dashes, underscores, spaces).
+    </Info>
+  </Accordion>
 
+  <Accordion title="How Completeness Check Works" icon="check">
+    mkbrr determines if a season pack is suspicious by:
 
-Warning: Possible incomplete season pack detected
-  Season number: 1
-  Highest episode number found: 4
-  Episodes found: 3
-  Missing: episode 3
+    <Steps>
+      <Step title="Find Highest Episode">
+        Scan all video files to determine the highest episode number in the pack
+      </Step>
+      <Step title="Count Episodes">
+        Count unique episodes found across all valid video files
+      </Step>
+      <Step title="Check for Gaps">
+        Compare episode numbers to identify any missing episodes in the sequence
+      </Step>
+    </Steps>
 
-This may be an incomplete season pack. Check files before uploading.
+    <Warning>
+    The detection focuses on standard episode numbering. Special episodes (S01E00) and unconventional naming may affect accuracy.
+    </Warning>
+  </Accordion>
 
-Hashing pieces... [3220.23 MB/s] 100% [========================================]
+  <Accordion title="Example Warning Output" icon="triangle-exclamation">
+    ```plaintext
+    Warning: Possible incomplete season pack detected
+      Season number: 1
+      Highest episode number found: 4
+      Episodes found: 3
+      Missing: episode 3
 
-Wrote Kyles.Original.Sins.S01.1080p.SRC.WEB-DL.DDP5.1.H.264.torrent (elapsed 3.22s)
-```
+    This may be an incomplete season pack. Check files before uploading.
+    ```
+  </Accordion>
+</AccordionGroup>
 
-<Warning>
-This feature relies on common naming conventions and may not be perfectly accurate in all cases (e.g., unconventional naming, specials, multi-part episodes not following standard patterns). Always double-check your files if you receive this warning.
-</Warning>
+<Note>
+This feature helps catch common packaging mistakes but isn't foolproof. Always verify your files manually before uploading to trackers.
+</Note>
