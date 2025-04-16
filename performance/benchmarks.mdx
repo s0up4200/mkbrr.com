@@ -107,30 +107,30 @@ All benchmarks were performed using [hyperfine](https://github.com/sharkdp/hyper
 ## Performance Consistency
 
 <Info>
-mkbrr shows excellent consistency with standard deviation between 0.25-3.7% across platforms, demonstrating reliable performance across different hardware configurations.
+mkbrr shows excellent consistency with standard deviation between 0.25-2.4% across platforms, demonstrating reliable performance across different hardware configurations.
 </Info>
 
 <CardGroup cols={3}>
   <Card title="Hetzner AX102" icon="microchip">
     All tools showed good consistency on high-end hardware:
-    - <Icon icon="chart-line" color="#22c55e" /> mkbrr: **1.75% variance**
-    - <Icon icon="chart-line" /> torrenttools: 2.93% variance
+    - <Icon icon="chart-line" /> mktorrent: **1.62% variance**
+    - <Icon icon="chart-line" color="#22c55e" /> mkbrr: 1.75% variance
     - <Icon icon="chart-line" /> torf: 2.29% variance
-    - <Icon icon="chart-line" /> mktorrent: 1.62% variance
+    - <Icon icon="chart-line" /> torrenttools: 2.93% variance
   </Card>
-  <Card title="Mechanical Storage" icon="hard-drive">
+  <Card title="Hetzner HDD" icon="hard-drive">
     Other tools showed significant fluctuations on HDD:
-    - <Icon icon="chart-line-down" /> mktorrent: 39.1% variance
-    - <Icon icon="chart-line-down" /> torrenttools: 22.0% variance
-    - <Icon icon="chart-line" /> torf: 9.9% variance
     - <Icon icon="chart-line" color="#22c55e" /> mkbrr: **2.4% variance**
+    - <Icon icon="chart-line" /> torf: 9.9% variance
+    - <Icon icon="chart-line-down" /> torrenttools: 22.0% variance
+    - <Icon icon="chart-line-down" /> mktorrent: 39.1% variance
   </Card>
-  <Card title="SSD Storage" icon="memory">
+  <Card title="Leaseweb SSD" icon="memory">
     All tools performed consistently on SSD:
-    - <Icon icon="chart-line" /> mktorrent: 0.36% variance
-    - <Icon icon="chart-line" /> torrenttools: 1.02% variance
-    - <Icon icon="chart-line" /> torf: 0.87% variance
     - <Icon icon="chart-line" color="#22c55e" /> mkbrr: **0.25% variance**
+    - <Icon icon="chart-line" /> mktorrent: 0.36% variance
+    - <Icon icon="chart-line" /> torf: 0.87% variance
+    - <Icon icon="chart-line" /> torrenttools: 1.02% variance
   </Card>
 </CardGroup>
 
