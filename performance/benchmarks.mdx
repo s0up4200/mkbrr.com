@@ -1,6 +1,6 @@
 ---
 title: Benchmarks
-description: mkbrr is optimized for speed and consistently outperforms other popular torrent creation tools in our benchmarks.
+description: Performance comparison with other popular torrent creation tools.
 icon: chart-line
 ---
 
@@ -10,22 +10,20 @@ All benchmarks were performed using [hyperfine](https://github.com/sharkdp/hyper
 
 ## Performance Overview
 
+mkbrr consistently outperforms other torrent creation tools across various hardware configurations. The benchmarks show that mkbrr is not only faster but also maintains better consistency, especially on mechanical drives where other tools struggle with variance.
+
 <CardGroup cols={4}>
   <Card title="Hetzner AX102" icon="bolt">
-    **2.86s** for 15 GiB
-    <Icon icon="arrow-trend-up" color="#22c55e" /> 5.89× faster than mktorrent
+    <Icon icon="arrow-trend-up" color="#22c55e" /> **2.86s** for 15 GiB
   </Card>
   <Card title="Leaseweb SSD" icon="hard-drive">
-    **7.24s** for 21 GiB
-    <Icon icon="arrow-trend-up" color="#22c55e" /> 6.27× faster than mktorrent
+    <Icon icon="arrow-trend-up" color="#22c55e" /> **7.24s** for 21 GiB
   </Card>
   <Card title="Hetzner HDD" icon="hard-drive">
-    **41.02s** for 14 GiB
-    <Icon icon="arrow-trend-up" color="#22c55e" /> 1.66× faster than mktorrent
+    <Icon icon="arrow-trend-up" color="#22c55e" /> **41.02s** for 14 GiB
   </Card>
   <Card title="Apple Silicon" icon="apple">
-    **9.71s** for 30 GiB
-    <Icon icon="arrow-trend-up" color="#22c55e" /> 1.12× faster than mktorrent
+    <Icon icon="arrow-trend-up" color="#22c55e" /> **9.71s** for 30 GiB
   </Card>
 </CardGroup>
 
@@ -43,8 +41,8 @@ All benchmarks were performed using [hyperfine](https://github.com/sharkdp/hyper
       <Card title="Test Results" icon="chart-simple">
         15 GiB 1080p season pack
         - <Icon icon="rabbit" color="#22c55e" /> mkbrr: **2.86s**
-        - <Icon icon="turtle" color="#94a3b8" /> torrenttools: 3.11s
         - <Icon icon="turtle" color="#94a3b8" /> torf: 3.06s
+        - <Icon icon="turtle" color="#94a3b8" /> torrenttools: 3.11s
         - <Icon icon="turtle" color="#94a3b8" /> mktorrent: 16.83s
       </Card>
     </CardGroup>
@@ -61,8 +59,8 @@ All benchmarks were performed using [hyperfine](https://github.com/sharkdp/hyper
       <Card title="Test Results" icon="chart-simple">
         21 GiB 1080p season pack:
         - <Icon icon="rabbit" color="#22c55e" /> mkbrr: **7.24s**
-        - <Icon icon="turtle" color="#94a3b8" /> torrenttools: 9.07s
         - <Icon icon="turtle" color="#94a3b8" /> torf: 8.85s
+        - <Icon icon="turtle" color="#94a3b8" /> torrenttools: 9.07s
         - <Icon icon="turtle" color="#94a3b8" /> mktorrent: 45.41s
       </Card>
     </CardGroup>
@@ -107,14 +105,14 @@ All benchmarks were performed using [hyperfine](https://github.com/sharkdp/hyper
 ## Performance Consistency
 
 <Info>
-mkbrr shows excellent consistency with standard deviation between 0.25-2.4% across platforms, demonstrating reliable performance across different hardware configurations.
+mkbrr maintains good consistency across all platforms, with variance ranging from 0.25% to 2.4%. It particularly excels on storage-heavy workloads, where other tools can show up to 39% variance.
 </Info>
 
 <CardGroup cols={3}>
   <Card title="Hetzner AX102" icon="microchip">
     All tools showed good consistency on high-end hardware:
-    - <Icon icon="chart-line" /> mktorrent: **1.62% variance**
-    - <Icon icon="chart-line" color="#22c55e" /> mkbrr: 1.75% variance
+    - <Icon icon="chart-line" color="#22c55e" /> mktorrent: **1.62% variance**
+    - <Icon icon="chart-line" /> mkbrr: 1.75% variance
     - <Icon icon="chart-line" /> torf: 2.29% variance
     - <Icon icon="chart-line" /> torrenttools: 2.93% variance
   </Card>
