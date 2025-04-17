@@ -4,6 +4,8 @@ description: Learn how to create .torrent files from local files or directories 
 icon: play
 ---
 
+import CreateParams from '/snippets/create-params.mdx';
+
 The `mkbrr create` command is used to generate new `.torrent` files from local files or directories.
 
 ```bash
@@ -56,100 +58,7 @@ When you provide a tracker URL via the `-t` flag or presets, mkbrr automatically
 
 ## Flags
 
-<ParamField path="--tracker, -t" type="string">
-  (Required unless using a preset with trackers) The announce URL of the tracker.
-</ParamField>
-<Warning>
-  A tracker announce URL is essential for creating a functional torrent that can be shared. Ensure you provide one via the `-t` flag or through a preset.
-</Warning>
-
-<ParamField path="--private, -p" type="boolean" default="true">
-  Mark the torrent as private. Most private trackers require this. Set to `false` for public torrents.
-</ParamField>
-
-<ParamField path="--output, -o" type="string">
-  Specify a custom output path and filename for the `.torrent` file (e.g., `-o my-custom-name.torrent`).
-  By default, the filename is derived from the input path and tracker domain (e.g., `tracker-domain_content-name.torrent`).
-</ParamField>
-
-<ParamField path="--comment, -c" type="string">
-  Add a text comment to the torrent metadata.
-</ParamField>
-
-<ParamField path="--piece-length, -l" type="integer">
-  Manually set the piece size exponent (2^n bytes). Accepts values between 16 (64 KiB) and 27 (128 MiB), subject to tracker limits. If omitted, `mkbrr` calculates an optimal size automatically based on content size and tracker rules.
-</ParamField>
-
-<Tip>
-  Let mkbrr automatically calculate the piece size unless you have specific requirements. The automatic calculation optimizes for both performance and compatibility.
-</Tip>
-
-<ParamField path="--max-piece-length, -m" type="integer">
-  Limit the maximum automatically calculated piece size exponent (2^n bytes). Accepts values between 16 and 27. Useful if you want automatic calculation but need to cap the size (e.g., for compatibility).
-</ParamField>
-
-<ParamField path="--web-seed, -w" type="string[]">
-  Add one or more web seed URLs (HTTP/HTTPS) to the torrent. Use the flag multiple times for multiple URLs (e.g., `-w url1 -w url2`).
-</ParamField>
-
-<ParamField path="--source, -s" type="string">
-  Embed a "source" tag within the torrent's info dictionary (often used by private trackers).
-</ParamField>
-
-<ParamField path="--exclude" type="string[]">
-  Specify glob patterns for files/folders to exclude from the torrent. Can be used multiple times or with comma-separated values (e.g., `--exclude "*.nfo" --exclude "*sample*"` or `--exclude "*.nfo,*sample*"`). See [Filtering Files](/features/filtering).
-</ParamField>
-
-<ParamField path="--include" type="string[]">
-  Specify glob patterns for files/folders to include. If used, only matching files will be included. Takes precedence over `--exclude`. Can be used multiple times or with comma-separated values (e.g., `--include "*.mkv" --include "*.mp4"` or `--include "*.mkv,*.mp4"`). See [Filtering Files](/features/filtering).
-</ParamField>
-
-<ParamField path="--entropy, -e" type="boolean" default="false">
-  Adds a random string to the torrent's info dictionary. This changes the info hash, useful for cross-seeding the same content on different trackers without causing hash collisions.
-</ParamField>
-
-<Info>
-  Cross-seeding is the practice of seeding the same content on multiple trackers. Using the entropy flag helps avoid conflicts between trackers.
-</Info>
-
-<ParamField path="--no-date, -d" type="boolean" default="false">
-  Do not write the creation date metadata into the torrent file.
-</ParamField>
-
-<ParamField path="--no-creator" type="boolean" default="false">
-  Do not write the "Created by" metadata (which usually includes the `mkbrr` version).
-</ParamField>
-
-<ParamField path="--skip-prefix" type="boolean" default="false">
-  Do not add the tracker domain prefix to the default output filename.
-</ParamField>
-
-<ParamField path="--preset, -P" type="string">
-  Use a predefined preset from your configuration file. See [Presets](/features/presets).
-</ParamField>
-
-<ParamField path="--preset-file" type="string">
-  Specify a custom path to the `presets.yaml` configuration file.
-</ParamField>
-
-<ParamField path="--batch, -b" type="string">
-  Use a batch configuration file (YAML) to create multiple torrents. See [Batch Mode](/features/batch-mode). Cannot be used with a `[path]` argument.
-</ParamField>
-
-<ParamField path="--workers" type="number">
-  Manually specify the number of concurrent goroutines used for hashing.
-<Info>
-  Experimenting with different values might yield better performance than the default automatic setting.
-</Info>
-</ParamField>
-
-<ParamField path="--verbose, -v" type="boolean" default="false">
-  Enable verbose output, showing detailed torrent information after creation.
-</ParamField>
-
-<ParamField path="--quiet" type="boolean" default="false">
-  Enable quiet mode, printing only the final torrent file path upon success. Overrides `--verbose`.
-</ParamField>
+<CreateParams />
 
 ## Handling Symbolic Links
 

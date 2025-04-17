@@ -4,6 +4,8 @@ description: Learn how to verify local files against .torrent files using the mk
 icon: circle-three-quarters-stroke
 ---
 
+import CheckParams from '/snippets/check-params.mdx';
+
 The `mkbrr check` command verifies if the local files or directory match the data defined in a `.torrent` file. This is useful for confirming the integrity of downloaded content or checking files after moving them.
 
 <CodeGroup>
@@ -41,20 +43,7 @@ The `mkbrr check` command verifies if the local files or directory match the dat
 
 ## Flags
 
-    <ParamField path="--workers" type="number">
-      Manually specify the number of concurrent goroutines used for hashing.
-    <Info>
-      Experimenting with different values might yield better performance than the default automatic setting.
-    </Info>
-    </ParamField>
-
-    <ParamField path="--verbose, -v" type="boolean" default="false">
-      Show the indices of any pieces that failed the hash check (bad pieces).
-    </ParamField>
-
-    <ParamField path="--quiet" type="boolean" default="false">
-      Reduced output mode. Only prints the final completion percentage (e.g., `100.00%`). Useful for scripting.
-    </ParamField>
+<CheckParams />
 
 ## Output
 
@@ -65,13 +54,6 @@ By default, the command provides a summary including:
 -   **Bad pieces:** Number of pieces where the local data hash does not match the torrent file.
 -   **Missing files:** Lists any files specified in the torrent that are missing locally. Files that exist but have an incorrect size will be listed with ` (size mismatch)` appended to their name.
 -   **Check time:** Duration of the verification process.
-
-<Tip>
-If `--verbose` is used, the indices of bad pieces are also listed.
-If `--quiet` is used, only the completion percentage is printed.
-
-The command exits with an error code if verification fails (bad pieces > 0 or missing files > 0).
-</Tip>
 
 ## Examples
 

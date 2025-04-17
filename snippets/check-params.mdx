@@ -1,0 +1,26 @@
+---
+title: 'Check Command Parameters'
+description: 'Parameter fields for the check command'
+---
+
+import CommonWorkers from '/snippets/common-workers.mdx';
+import CommonQuiet from '/snippets/common-quiet.mdx';
+
+<ParamField query="--verbose, -v" type="boolean" default={false}>
+  Be verbose.
+  <Info>
+    When enabled, shows detailed information about the verification process including any bad piece indices.
+  </Info>
+</ParamField>
+
+<CommonQuiet />
+<Info>
+  Useful for automated scripts or when you only need the verification status.
+</Info>
+
+<Tip>
+  The command exits with an error code if verification fails (bad pieces > 0 or missing files > 0).
+</Tip>
+
+
+<CommonWorkers />
