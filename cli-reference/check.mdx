@@ -28,6 +28,13 @@ description: 'Verify the integrity of content against a torrent file.'
   Display help for the `check` command.
 </ParamField>
 
+<ParamField query="--workers" type="number">
+  Manually specify the number of concurrent goroutines used for hashing.
+<Info>
+  Experimenting with different values might yield better performance than the default automatic setting.
+</Info>
+</ParamField>
+
 ## Examples
 
 ### Basic Check

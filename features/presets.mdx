@@ -154,12 +154,19 @@ The following options can be used within the `default` section or any specific p
       List of web seed URLs.
     </ParamField>
 
+    <ParamField path="workers" type="number">
+      Manually specify the number of concurrent goroutines used for hashing.
+    <Info>
+      Experimenting with different values might yield better performance than the default automatic setting.
+    </Info>
+    </ParamField>
+
     <ParamField path="entropy" type="boolean" default="false">
       Whether to randomize the torrent's info hash by adding a unique, random key to the info dictionary.
-    </ParamField>
     <Tip>
       Useful for cross-seeding identical content on trackers that reject duplicate info hashes.
     </Tip>
+    </ParamField>
 
     <ParamField path="no_date" type="boolean">
       Whether to omit creation date.

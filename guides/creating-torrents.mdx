@@ -136,6 +136,13 @@ When you provide a tracker URL via the `-t` flag or presets, mkbrr automatically
   Use a batch configuration file (YAML) to create multiple torrents. See [Batch Mode](/features/batch-mode). Cannot be used with a `[path]` argument.
 </ParamField>
 
+<ParamField path="--workers" type="number">
+  Manually specify the number of concurrent goroutines used for hashing.
+<Info>
+  Experimenting with different values might yield better performance than the default automatic setting.
+</Info>
+</ParamField>
+
 <ParamField path="--verbose, -v" type="boolean" default="false">
   Enable verbose output, showing detailed torrent information after creation.
 </ParamField>

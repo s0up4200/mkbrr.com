@@ -87,6 +87,11 @@
           "anchor": "Discord",
           "href": "https://discord.gg/WehFCZxq5B",
           "icon": "discord"
+        },
+        {
+          "anchor": "Donate",
+          "href": "https://buy.polar.sh/polar_cl_FOz7RvG0zZNUN6xPNg6UjIyWABzmuHWRmTkP12T9W05",
+          "icon": "heart"
         }
       ]
     }

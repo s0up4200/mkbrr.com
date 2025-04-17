@@ -41,6 +41,13 @@ The `mkbrr check` command verifies if the local files or directory match the dat
 
 ## Flags
 
+    <ParamField path="--workers" type="number">
+      Manually specify the number of concurrent goroutines used for hashing.
+    <Info>
+      Experimenting with different values might yield better performance than the default automatic setting.
+    </Info>
+    </ParamField>
+
     <ParamField path="--verbose, -v" type="boolean" default="false">
       Show the indices of any pieces that failed the hash check (bad pieces).
     </ParamField>
