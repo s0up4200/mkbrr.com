@@ -3,6 +3,8 @@ title: check
 description: 'Verify the integrity of content against a torrent file.'
 ---
 
+import CheckParams from '/snippets/check-params.mdx';
+
 ## Usage
 
 ```bash
@@ -16,24 +18,7 @@ description: 'Verify the integrity of content against a torrent file.'
 
 ## Flags
 
-<ParamField query="--verbose, -v" type="boolean" default={false}>
-  Show a list of bad piece indices if any are found.
-</ParamField>
-
-<ParamField query="--quiet" type="boolean" default={false}>
-  Reduced output mode. Only prints the completion percentage.
-</ParamField>
-
-<ParamField query="--help, -h" type="boolean" default={false}>
-  Display help for the `check` command.
-</ParamField>
-
-<ParamField query="--workers" type="number">
-  Manually specify the number of concurrent goroutines used for hashing.
-<Info>
-  Experimenting with different values might yield better performance than the default automatic setting.
-</Info>
-</ParamField>
+<CheckParams />
 
 ## Examples
 

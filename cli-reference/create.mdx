@@ -3,6 +3,8 @@ title: create
 description: 'Create a new torrent file from a file or directory.'
 ---
 
+import CreateParams from '/snippets/create-params.mdx';
+
 ## Usage
 
 ```bash
@@ -25,88 +27,4 @@ By default, when a tracker URL is provided, the output filename will be prefixed
 
 ## Flags
 
-<ParamField query="--batch, -b" type="string">
-  Batch config file (YAML). Cannot be used with a path argument.
-</ParamField>
-
-<ParamField query="--preset, -P" type="string">
-  Use preset from config. Requires a path argument.
-</ParamField>
-
-<ParamField query="--preset-file" type="string">
-  Preset config file (default `~/.config/mkbrr/presets.yaml`).
-</ParamField>
-
-<ParamField query="--tracker, -t" type="string">
-  Tracker URL. Required unless using a preset with trackers defined.
-</ParamField>
-
-<ParamField query="--web-seed, -w" type="array">
-  Add web seed URLs. Can be used multiple times.
-</ParamField>
-
-<ParamField query="--private, -p" type="boolean" default={true}>
-  Make torrent private.
-</ParamField>
-
-<ParamField query="--comment, -c" type="string">
-  Add comment.
-</ParamField>
-
-<ParamField query="--piece-length, -l" type="number">
-  Set piece length to 2^n bytes (16-27, automatic if not specified).
-</ParamField>
-
-<ParamField query="--max-piece-length, -m" type="number">
-  Limit maximum automatically calculated piece length to 2^n bytes (16-27, unlimited if not specified).
-</ParamField>
-
-<ParamField query="--output, -o" type="string">
-  Set output path (default: `<name>.torrent` or `<tracker-prefix>_<name>.torrent`).
-</ParamField>
-
-<ParamField query="--source, -s" type="string">
-  Add source string.
-</ParamField>
-
-<ParamField query="--no-date, -d" type="boolean" default={false}>
-  Don't write creation date.
-</ParamField>
-
-<ParamField query="--no-creator" type="boolean" default={false}>
-  Don't write creator string.
-</ParamField>
-
-<ParamField query="--entropy, -e" type="boolean" default={false}>
-  Randomize the torrent's info hash by adding a unique, random `entropy` key to the info dictionary before hashing. This is primarily useful for cross-seeding identical content on different trackers that might reject duplicate info hashes.
-</ParamField>
-
-<ParamField query="--verbose, -v" type="boolean" default={false}>
-  Be verbose.
-</ParamField>
-
-<ParamField query="--quiet" type="boolean" default={false}>
-  Reduced output mode (prints only final torrent path).
-</ParamField>
-
-<ParamField query="--skip-prefix" type="boolean" default={false}>
-  Don't add tracker domain prefix to output filename.
-</ParamField>
-
-<ParamField query="--exclude" type="array">
-  Exclude files matching these patterns (e.g., `"*.nfo,*.jpg"` or `--exclude "*.nfo" --exclude "*.jpg"`).
-</ParamField>
-
-<ParamField query="--workers" type="number">
-  Manually specify the number of concurrent goroutines used for hashing.
-<Info>
-  Experimenting with different values might yield better performance than the default automatic setting.
-</Info>
-</ParamField>
-
-<ParamField query="--include" type="array">
-  Include only files matching these patterns (e.g., `"*.mkv,*.mp4"` or `--include "*.mkv" --include "*.mp4"`).
-</ParamField>
-
-{/* Hidden development flag */}
-{/* <ParamField query="--cpuprofile" type="string"> write cpu profile to file </ParamField> */}
+<CreateParams />
