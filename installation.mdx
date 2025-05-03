@@ -15,8 +15,8 @@ icon: download
       <Card title="Package Managers" icon="cube">
         Install using your preferred package manager
       </Card>
-      <Card title="Go Install" icon="golang">
-        Install from source using Go
+      <Card title="Docker" icon="docker">
+        Install using Docker
       </Card>
     </CardGroup>
   </Step>
@@ -205,6 +205,30 @@ icon: download
             </Tip>
           </Tab>
         </Tabs>
+      </Tab>
+      <Tab title="Docker">
+        Pull the image:
+        ```bash
+        docker pull ghcr.io/autobrr/mkbrr
+        ```
+
+        Tag it for convenience:
+        ```bash
+        docker tag ghcr.io/autobrr/mkbrr mkbrr
+        ```
+
+        Run and mount your input/output directories:
+        ```bash
+        docker run -v ~/Downloads:/downloads mkbrr mkbrr create /downloads/your-file --output-dir /downloads
+        ```
+
+        <Info>
+          Replace `~/Downloads` with the path on your host containing the files you want to process. `/downloads` is the path inside the container.
+        </Info>
+        <Tip>
+          For convenience, add an alias to your shell configuration (e.g., `.zshrc` or `.bashrc`):
+          `alias mkbrr='docker run -v ~/Downloads:/downloads mkbrr mkbrr'`
+        </Tip>
       </Tab>
       <Tab title="Go Install">
         If you have Go installed (version 1.23 or later recommended), you can install `mkbrr` using:
