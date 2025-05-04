@@ -229,6 +229,18 @@ icon: download
           For convenience, add an alias to your shell configuration (e.g., `.zshrc` or `.bashrc`):
           `alias mkbrr='docker run -v ~/Downloads:/downloads mkbrr mkbrr'`
         </Tip>
+        <Info>
+          If you want mkbrr to automatically discover your <code>presets.yaml</code> or other config files, set the working directory (<code>-w</code>) to the config directory inside the container. mkbrr searches for config files in the current working directory and standard config paths (like <code>/root/.config/mkbrr</code>).
+          For example, if your config is in <code>/mnt/user/appdata/mkbrr</code> on your host:
+          ```bash
+          alias mkbrr='docker run --rm \
+            -v /mnt/user/data/complete/Music:/music \
+            -v /mnt/user/data/torrentfiles/created:/torrentfiles \
+            -v /mnt/user/appdata/mkbrr:/root/.config/mkbrr \
+            -w /root/.config/mkbrr \
+            ghcr.io/autobrr/mkbrr mkbrr'
+          ```
+        </Info>
       </Tab>
       <Tab title="Go Install">
         If you have Go installed (version 1.23 or later recommended), you can install `mkbrr` using:
