@@ -34,10 +34,10 @@ icon: download
                   Make sure the extraction directory (e.g., `/usr/local/bin`) is included in your system's `PATH` environment variable so you can run `mkbrr` from any location.
                 </Info>
                 <Tabs>
-                  <Tab title="amd64">
+                  <Tab title="x86_64">
                 ```bash
                 wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep linux_x86_64 | cut -d\" -f4)
-                sudo tar -C /usr/local/bin -xzf mkbrr_*_linux_amd64.tar.gz mkbrr
+                sudo tar -C /usr/local/bin -xzf mkbrr_*_linux_x86_64.tar.gz mkbrr
                 ```
                   </Tab>
                   <Tab title="arm64">
@@ -241,6 +241,17 @@ icon: download
             ghcr.io/autobrr/mkbrr mkbrr'
           ```
         </Info>
+        <Accordion title="Rootless Docker">
+          When running Docker in rootless mode, you may encounter permission issues when writing torrent files. To fix this, use the `--user` flag to run the container as your current user:
+          ```bash
+          docker run --user $(id -u):$(id -g) -v ~/Downloads:/downloads ghcr.io/autobrr/mkbrr mkbrr create /downloads/your-file --output-dir /downloads
+          ```
+
+          For your alias:
+          ```bash
+          alias mkbrr='docker run --rm --user $(id -u):$(id -g) -v ~/Downloads:/downloads ghcr.io/autobrr/mkbrr mkbrr'
+          ```
+        </Accordion>
       </Tab>
       <Tab title="Go Install">
         If you have Go installed (version 1.23 or later recommended), you can install `mkbrr` using:
