@@ -8,9 +8,12 @@ icon: download
   <Step title="Choose Your Installation Method" icon="list">
     Select the installation method that best suits your system and preferences:
     
-    <CardGroup cols={3}>
+    <CardGroup cols={2}>
       <Card title="Pre-built Binaries" icon="box">
-        Download and install pre-compiled binaries
+        Download and install pre-compiled CLI binaries
+      </Card>
+      <Card title="GUI Application" icon="window">
+        Desktop application for visual torrent management
       </Card>
       <Card title="Package Managers" icon="cube">
         Install using your preferred package manager
@@ -265,6 +268,51 @@ icon: download
         ```bash
         echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> ~/.zshrc && source ~/.zshrc
         ```
+      </Tab>
+      <Tab title="GUI Application">
+        mkbrr includes a graphical user interface for those who prefer a visual experience. Download the GUI binary for your platform from the [GitHub Releases page](https://github.com/autobrr/mkbrr/releases/latest).
+
+        <Tabs>
+          <Tab title="macOS">
+            Download `mkbrr-gui_*_darwin_*.zip` and extract the `.app` bundle.
+
+            <Warning>
+              The app is not notarized, so macOS will block it by default. Use one of these methods:
+            </Warning>
+
+            **Option 1: Remove quarantine attribute (recommended)**
+            ```bash
+            xattr -cr /path/to/mkbrr-gui.app
+            ```
+
+            **Option 2: Right-click to open**
+            1. Right-click (or Control-click) on the app
+            2. Select "Open" from the context menu
+            3. Click "Open" in the dialog
+
+            **Option 3: System Settings**
+            1. Try to open the app (it will be blocked)
+            2. Open System Settings > Privacy & Security
+            3. Click "Open Anyway" next to the mkbrr-gui message
+          </Tab>
+          <Tab title="Windows">
+            Download `mkbrr-gui_*_windows_amd64.zip` and extract `mkbrr-gui.exe`.
+
+            Run the executable directly - no installation required.
+          </Tab>
+          <Tab title="Linux">
+            Download `mkbrr-gui_*_linux_amd64.zip` and extract the binary.
+
+            ```bash
+            chmod +x mkbrr-gui
+            ./mkbrr-gui
+            ```
+          </Tab>
+        </Tabs>
+
+        <Tip>
+          For detailed GUI features and usage, see the [GUI Application guide](/gui/overview).
+        </Tip>
       </Tab>
     </Tabs>
   </Step>

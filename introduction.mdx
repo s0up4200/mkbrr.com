@@ -8,7 +8,7 @@ icon: hand-wave
   <div style={{ flex: '1 1 0%' }}>
     ## What is mkbrr?
 
-    **mkbrr** (pronounced "make-burr") is a simple yet powerful command-line tool designed for creating, inspecting, and modifying `.torrent` files. It also intelligently handles specific requirements for various private trackers.
+    **mkbrr** (pronounced "make-burr") is a simple yet powerful tool designed for creating, inspecting, and modifying `.torrent` files. Available as both a CLI and a desktop GUI, it intelligently handles specific requirements for various private trackers.
 
   </div>
   <div style={{ flex: '0 0 auto' }}>
@@ -23,14 +23,14 @@ icon: hand-wave
   <Card title="Blazing Fast" icon="rabbit-running">
     Optimized hashing performance that consistently beats other tools in benchmarks. See [Performance](/performance/benchmarks).
   </Card>
-  <Card title="Portable" icon="box-archive">
-    Distributed as a single, dependency-free binary for easy deployment across platforms.
+  <Card title="CLI & GUI" icon="window">
+    Use the command line for automation or the [desktop GUI](/gui/overview) for visual torrent management.
   </Card>
   <Card title="Smart Features" icon="lightbulb">
     Includes support for reusable [presets](/features/presets) and [batch mode](/features/batch-mode) operations.
   </Card>
-  <Card title="Built with Go" icon="golang">
-    Leverages Go's performance, concurrency, and cross-platform compilation.
+  <Card title="Portable" icon="box-archive">
+    Distributed as a single, dependency-free binary for easy deployment across platforms.
   </Card>
 </CardGroup>
 
@@ -55,24 +55,28 @@ icon: hand-wave
 
 <Steps>
   <Step title="Install mkbrr" icon="download">
-    Follow our [installation guide](/installation) to set up mkbrr on your system.
+    Follow our [installation guide](/installation) to set up the CLI or [GUI application](/gui/overview) on your system.
   </Step>
-  
+
   <Step title="Create Your First Torrent" icon="wand-magic-sparkles">
+    **CLI:**
     ```bash
     # Basic usage
     mkbrr create "path/to/data" -o my.torrent
-    
+
     # With a tracker
     mkbrr create "path/to/data" -o my.torrent --tracker "http://tracker.url"
     ```
+
+    **GUI:** Open the application and use the Create page to select files and configure your torrent visually.
   </Step>
-  
+
   <Step title="Learn More" icon="book">
     Check out our [guides](/guides) to learn about advanced features:
     - [Creating torrents](/guides/creating-torrents)
     - [Using presets](/features/presets)
     - [Batch operations](/features/batch-mode)
+    - [GUI Application](/gui/overview)
   </Step>
 </Steps>
 

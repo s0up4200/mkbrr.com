@@ -21,7 +21,8 @@
             "group": "Get Started",
             "pages": [
               "introduction",
-              "installation"
+              "installation",
+              "gui/overview"
             ]
           },
           {
@@ -101,8 +102,8 @@
   },
   "seo": {
     "metatags": {
-      "description": "mkbrr - A powerful CLI tool for creating, inspecting, modifying, and checking torrents",
-      "keywords": "torrent, bittorrent, cli, tool, mkbrr, autobrr"
+      "description": "mkbrr - A powerful CLI and GUI tool for creating, inspecting, modifying, and checking torrents",
+      "keywords": "torrent, bittorrent, cli, gui, tool, mkbrr, autobrr"
     },
     "indexing": "navigable"
   },
