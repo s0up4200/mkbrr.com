@@ -330,6 +330,21 @@ jobs:
                 // Push to the repository (force push to overwrite existing branch if needed)
                 await exec.exec('git', ['push', '--force', 'origin', newBranch]);
                 
+                // Skip PR creation if one already exists for this branch (open or closed)
+                const existingPrs = await github.rest.pulls.list({
+                  owner: docsOwner,
+                  repo: docsRepo,
+                  head: `${docsOwner}:${newBranch}`,
+                  base: 'main',
+                  state: 'all'
+                });
+                
+                if (existingPrs.data.length > 0) {
+                  const existing = existingPrs.data[0];
+                  console.log(`PR already exists: ${existing.html_url} (state: ${existing.state})`);
+                  return;
+                }
+                
                 console.log('Attempting to create PR...');
                 
                 try {
@@ -345,6 +360,10 @@ jobs:
                   
                   console.log(`Successfully created PR: ${prResult.data.html_url}`);
                 } catch (prError) {
+                  if (prError.status === 422 && `${prError.message}`.includes('already exists')) {
+                    console.log('PR already exists; skipping creation.');
+                    return;
+                  }
                   console.error(`Error creating PR: ${prError.message}`);
                   console.error(`Status: ${prError.status}`);
                   console.error(`Details: `, prError);
