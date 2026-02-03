@@ -341,7 +341,24 @@ jobs:
                 
                 if (existingPrs.data.length > 0) {
                   const existing = existingPrs.data[0];
+                  const prTitle = `docs: update changelog for ${release.tag_name}`;
+                  const prBody = `This PR updates the changelog with the latest release information from [${release.tag_name}](${release.html_url}).`;
+                  
                   console.log(`PR already exists: ${existing.html_url} (state: ${existing.state})`);
+                  
+                  try {
+                    await github.rest.pulls.update({
+                      owner: docsOwner,
+                      repo: docsRepo,
+                      pull_number: existing.number,
+                      title: prTitle,
+                      body: prBody
+                    });
+                    console.log('Updated existing PR title/body.');
+                  } catch (updateError) {
+                    console.warn(`Failed to update existing PR: ${updateError.message}`);
+                  }
+                  
                   return;
                 }
                 
