@@ -4,6 +4,45 @@ description: 'Latest updates and improvements to mkbrr'
 icon: code-merge
 ---
 
+<Update label="v1.21.0" description="2026-04-01">
+### New Features
+- [9326b63](https://github.com/autobrr/mkbrr/commit/9326b63e07968744924eeb6d83df15cb421233df): Add name argument ([#141](https://github.com/autobrr/mkbrr/pull/141)) (@illutr0n)
+- [89779bf](https://github.com/autobrr/mkbrr/commit/89779bf4de4edf7bf77a782c1beb1a712335af41): Add onlyencodes piece rules ([#150](https://github.com/autobrr/mkbrr/pull/150)) (@s0up4200)
+- [34c8312](https://github.com/autobrr/mkbrr/commit/34c8312bb311b90e3dbad9e86969317e4a9311b2): Support path-based glob patterns ([#147](https://github.com/autobrr/mkbrr/pull/147)) (@tetrahydroc)
+- [1c5affa](https://github.com/autobrr/mkbrr/commit/1c5affaa37f1899d3a3ae58a02d5e04e52e6861b): Add ability to remove private/source/comment fields ([#153](https://github.com/autobrr/mkbrr/pull/153)) (@s0up4200)
+- [34606fc](https://github.com/autobrr/mkbrr/commit/34606fcaa5734e9c3d3e4d478245f1a641750a45): Add --target-piece-count option ([#156](https://github.com/autobrr/mkbrr/pull/156)) (@s0up4200)
+
+### Bug fixes
+- [62b1596](https://github.com/autobrr/mkbrr/commit/62b1596ec979e46d98ea886969f288eef33d4204): Use non-deprecated formats syntax in archives (@s0up4200)
+- [cd5ba11](https://github.com/autobrr/mkbrr/commit/cd5ba11bea7830391afc85ab8613c1aa2c459e53): Apply entropy option from preset during modify ([#151](https://github.com/autobrr/mkbrr/pull/151)) (@s0up4200)
+- [5466955](https://github.com/autobrr/mkbrr/commit/5466955518d832a8e17cc3b0699cf97c6d88682f): Add entropy support to batch mode ([#152](https://github.com/autobrr/mkbrr/pull/152)) (@s0up4200)
+- [3ad0aee](https://github.com/autobrr/mkbrr/commit/3ad0aee53e88da0f03ab35637cfcf097818a9747): Use torrent-level byte offsets for multi-file verification ([#154](https://github.com/autobrr/mkbrr/pull/154)) (@s0up4200)
+- [b9c78e1](https://github.com/autobrr/mkbrr/commit/b9c78e134d74ca4ad0cfa179270f329c3178efbc): Remove self-managed homebrew tap ([#157](https://github.com/autobrr/mkbrr/pull/157)) (@s0up4200)
+
+### Other work
+- [9f5cd2f](https://github.com/autobrr/mkbrr/commit/9f5cd2f54e66eaa35c6c960249e8867e3b4f4378): Add .pre-commit-config.yaml for code quality checks and update .gitignore to include .envrc (@s0up4200)
+- [4a5481b](https://github.com/autobrr/mkbrr/commit/4a5481b860d75da35c23647740c524d0e86cdd55): Bump the github group with 2 updates ([#129](https://github.com/autobrr/mkbrr/pull/129)) (@dependabot[bot])
+- [1e167db](https://github.com/autobrr/mkbrr/commit/1e167dbf0b241998d6d695bd937e91e244cbcd23): Bump the golang group with 4 updates ([#130](https://github.com/autobrr/mkbrr/pull/130)) (@dependabot[bot])
+- [6e8c93c](https://github.com/autobrr/mkbrr/commit/6e8c93c6cb6052fe35a1b398f52f4a5567f532bb): Include Buy Me a Coffee and Ko-fi links (@s0up4200)
+- [79cef17](https://github.com/autobrr/mkbrr/commit/79cef171b91d26965fce16181a59f91f398e0baa): Replace custom min/max with go1.21+ native builtins ([#142](https://github.com/autobrr/mkbrr/pull/142)) (@fabricionaweb)
+- [ad74e56](https://github.com/autobrr/mkbrr/commit/ad74e5652ecd9c011f50717aa73cfccf3930cba5): Bump the github group with 3 updates ([#143](https://github.com/autobrr/mkbrr/pull/143)) (@dependabot[bot])
+- [7d59bca](https://github.com/autobrr/mkbrr/commit/7d59bca59d0e8eadebf709165bbde508ed3d46e1): Bump github.com/anacrolix/torrent in the golang group ([#144](https://github.com/autobrr/mkbrr/pull/144)) (@dependabot[bot])
+- [b46ed88](https://github.com/autobrr/mkbrr/commit/b46ed882ce308cbee8790ed746a7bd090259f193): Add new tracker configuration for torrentleech.org ([#139](https://github.com/autobrr/mkbrr/pull/139)) (@illutr0n)
+- [c3ac2c5](https://github.com/autobrr/mkbrr/commit/c3ac2c5f3ad7c38870da872b7015140dd72cf222): Bump the github group with 5 updates ([#145](https://github.com/autobrr/mkbrr/pull/145)) (@dependabot[bot])
+- [a06c966](https://github.com/autobrr/mkbrr/commit/a06c9661f1416f48917d6ffa1c363d50f008638b): Update installation instructions for Homebrew ([#146](https://github.com/autobrr/mkbrr/pull/146)) (@chrisfinazzo)
+- [61efa7d](https://github.com/autobrr/mkbrr/commit/61efa7d15a23dce3ec02859b9c37f8dc309fdf44): Bump github.com/fatih/color from 1.18.0 to 1.19.0 in the golang group ([#155](https://github.com/autobrr/mkbrr/pull/155)) (@dependabot[bot])
+- [4c952ed](https://github.com/autobrr/mkbrr/commit/4c952ed23a00726294212a3a1cafb8b1542fd88a): Add Claude Code GitHub Workflow ([#158](https://github.com/autobrr/mkbrr/pull/158)) (@s0up4200)
+
+**Full Changelog**: [v1.20.0...v1.21.0](https://github.com/autobrr/mkbrr/compare/v1.20.0...v1.21.0)
+
+### Contributors
+- @s0up4200
+- @dependabot[bot]
+- @fabricionaweb
+- @illutr0n
+- @chrisfinazzo
+- @tetrahydroc
+</Update>
 <Update label="v1.20.0" description="2026-01-26">
 ### New Features
 - [2528c79](https://github.com/autobrr/mkbrr/commit/2528c79d20457df94e02a713f4a8251592758954): Add homebrew formula generation to goreleaser ([#135](https://github.com/autobrr/mkbrr/pull/135)) (@s0up4200)
