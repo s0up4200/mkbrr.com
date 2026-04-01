@@ -13,7 +13,7 @@ icon: rabbit-running
     mkbrr create "Movie.2024.1080p.BluRay.x264" -t https://your-tracker.com/announce
     
     # With custom piece size
-    mkbrr create "Movie.2024.1080p.BluRay.x264" -t https://your-tracker.com/announce --piece-size 24
+    mkbrr create "Movie.2024.1080p.BluRay.x264" -t https://your-tracker.com/announce --piece-length 24
     
     # With source and comment
     mkbrr create "Movie.2024.1080p.BluRay.x264" -t https://your-tracker.com/announce --source "BluRay" --comment "Great quality!"
@@ -58,7 +58,7 @@ mkbrr automatically handles many settings for you:
   ```bash
   --tracker, -t     # Tracker URL
   --output, -o      # Output file name
-  --piece-size      # Manual piece size (power of 2)
+  --piece-length    # Manual piece size (power of 2)
   --source          # Source tag
   --comment         # Torrent comment
   --private         # Private flag (default: true)
@@ -77,7 +77,7 @@ mkbrr automatically handles many settings for you:
   Piece size must be a power of 2 between 14 and 28:
   ```bash
   # Valid sizes: 14(16KiB), 15(32KiB), 16(64KiB)...28(256MiB)
-  mkbrr create data -t tracker.url --piece-size 16
+  mkbrr create data -t tracker.url --piece-length 16
   ```
   
   ### Multiple Files

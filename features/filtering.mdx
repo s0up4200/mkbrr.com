@@ -11,13 +11,14 @@ Use glob patterns with `--include` and `--exclude` flags to precisely control wh
 ## Built-in Exclusions
 
 <Card title="System Files" icon="file-shield">
-mkbrr automatically excludes these common system files (case-insensitive):
+mkbrr automatically excludes these common system files and directories (case-insensitive):
 ```plaintext
 .torrent
 .ds_store
 thumbs.db
 desktop.ini
 zone.identifier
+@eadir (Synology NAS metadata directory)
 ```
 </Card>
 

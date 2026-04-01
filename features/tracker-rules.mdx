@@ -36,18 +36,28 @@ Below is a list of implemented trackers and their specific requirements:
 The tracker rules are maintained in the [mkbrr source code](https://github.com/autobrr/mkbrr/blob/main/internal/trackers/trackers.go). Contributions to keep rules updated are welcome via pull requests.
 </Info>
 
-| Tracker | Piece Ranges | Max Piece Size | Max Torrent Size |
-|---------|-------------|----------------|------------------|
-| ANT | Default | 16 MiB | 250 KiB |
-| HDB | Default | 16 MiB | - |
-| BHD | Default | 16 MiB | - |
-| SBS | Default | 16 MiB | - |
-| PTP | Custom | 16 MiB | - |
-| EMP | Default | 8 MiB | - |
-| MTV | Default | 8 MiB | - |
-| GGN | Custom | 64 MiB | 1 MiB |
-| SP | Custom | 128 MiB | - |
-| NB | Custom | 16 MiB | - |
-| BTN | Custom | 16 MiB | - |
-| TSYNDIKAT | Custom | 16 MiB | - |
+| Tracker | Piece Ranges | Max Piece Size | Max Torrent Size | Default Source |
+|---------|-------------|----------------|------------------|----------------|
+| ANT | Default | - | 250 KiB | ANT |
+| NBL | Default | - | 1 MiB | NBL |
+| HDB | Default | 16 MiB | - | - |
+| SBS | Default | 16 MiB | - | - |
+| SP | Default | 16 MiB | - | - |
+| BHD | Default | 16 MiB | - | BHD |
+| PTP | Custom | 16 MiB | - | PTP |
+| MTV | Default | 8 MiB | - | MTV |
+| EMP | Default | 8 MiB | - | Emp |
+| GGN | Custom | 64 MiB | 1 MiB | GGn |
+| AlphaRatio | Custom | 64 MiB | 2 MiB | AlphaRatio |
+| seedpool.org | Custom | 128 MiB | - | seedpool.org |
+| NB | Custom | 16 MiB | - | - |
+| BTN | Custom | 16 MiB | - | - |
+| TSYNDIKAT | Custom | 16 MiB | - | - |
+| OE | Custom | 16 MiB | - | - |
+| lst.gg | Custom | 16 MiB | - | lst.gg |
+| Aither | Default | - | - | Aither |
+| ULCX | Default | - | - | ULCX |
+| CapybaraBR | Default | - | - | CapybaraBR |
+| HUNO | Default | - | - | HUNO |
+| TorrentLeech | Custom | 16 MiB | - | TorrentLeech.org |
 
