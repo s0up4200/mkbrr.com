@@ -127,7 +127,11 @@ The following options can be used within the `default` section or any specific p
 
   <Tab title="Piece Settings">
     <ParamField path="piece_length" type="integer">
-      Piece size exponent (e.g., `18` for 256 KiB).
+      Piece size exponent (e.g., `18` for 256 KiB). Mutually exclusive with `target_piece_count`.
+    </ParamField>
+
+    <ParamField path="target_piece_count" type="integer">
+      Target approximate number of pieces (e.g., `600` or `900`). Calculates the optimal piece length automatically. Mutually exclusive with `piece_length`.
     </ParamField>
 
     <ParamField path="max_piece_length" type="integer">

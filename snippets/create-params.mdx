@@ -72,6 +72,11 @@ import CommonEntropy from '/snippets/common-entropy.mdx';
   Limit maximum automatically calculated piece length to 2^n bytes (16-27).
 </ParamField>
 
+<ParamField query="--target-piece-count" type="number">
+  Target approximate number of pieces. Calculates optimal piece length automatically.
+  Mutually exclusive with `--piece-length`.
+</ParamField>
+
 <CommonEntropy />
 
 ### Seeding & Metadata
