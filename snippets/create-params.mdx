@@ -21,8 +21,16 @@ import CommonEntropy from '/snippets/common-entropy.mdx';
   Tracker URL. Required unless using a preset with trackers defined.
 </ParamField>
 
+<ParamField query="--name" type="string">
+  Set torrent name (default: source filename).
+</ParamField>
+
 <ParamField query="--output, -o" type="string">
   Optional. Set output path (default: `<n>.torrent` or `<tracker-prefix>_<n>.torrent`).
+</ParamField>
+
+<ParamField query="--output-dir" type="string">
+  Output directory for created torrent.
 </ParamField>
 
 <ParamField query="--skip-prefix" type="boolean" default={false}>
@@ -91,6 +99,12 @@ import CommonEntropy from '/snippets/common-entropy.mdx';
 
 <CommonNoCreator />
 
+### Season Pack Detection
+
+<ParamField query="--fail-on-season-warning" type="boolean" default={false}>
+  Exit with error if season pack completeness check detects missing episodes.
+</ParamField>
+
 ### Execution & Output Control
 
 <CommonWorkers />
@@ -98,3 +112,7 @@ import CommonEntropy from '/snippets/common-entropy.mdx';
 <CommonVerbose />
 
 <CommonQuiet />
+
+<ParamField query="--info-only, -i" type="boolean" default={false}>
+  Display only torrent info without progress (implies verbose).
+</ParamField>

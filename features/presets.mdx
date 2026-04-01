@@ -151,6 +151,10 @@ The following options can be used within the `default` section or any specific p
     <ParamField path="skip_prefix" type="boolean">
       Whether to prevent adding the tracker domain prefix to the output filename.
     </ParamField>
+
+    <ParamField path="output_dir" type="string">
+      Output directory for created torrents.
+    </ParamField>
   </Tab>
 
   <Tab title="Advanced">
@@ -178,6 +182,10 @@ The following options can be used within the `default` section or any specific p
 
     <ParamField path="no_creator" type="boolean">
       Whether to omit creator string.
+    </ParamField>
+
+    <ParamField path="fail_on_season_warning" type="boolean">
+      Exit with error if season pack completeness check detects missing episodes.
     </ParamField>
   </Tab>
 </Tabs>

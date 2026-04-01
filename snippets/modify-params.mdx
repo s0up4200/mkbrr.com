@@ -16,10 +16,13 @@ import CommonEntropy from '/snippets/common-entropy.mdx';
 
 ### Input & Output
 
-<ParamField query="--tracker, -t" type="string">
-  Set a new tracker URL (replaces existing).
+<ParamField query="--tracker, -t" type="string[]">
+  Tracker URLs (can be specified multiple times).
 </ParamField>
 
+<ParamField query="--name" type="string">
+  Set the torrent's internal name.
+</ParamField>
 
 <ParamField query="--output-dir" type="string">
   Output directory for modified files.
@@ -41,6 +44,10 @@ import CommonEntropy from '/snippets/common-entropy.mdx';
 
 <CommonPrivate />
 
+<ParamField query="--no-private" type="boolean" default={false}>
+  Remove the private flag entirely.
+</ParamField>
+
 <CommonEntropy />
 
 ### Seeding & Metadata
@@ -61,6 +68,10 @@ import CommonEntropy from '/snippets/common-entropy.mdx';
 <CommonVerbose />
 
 <CommonQuiet />
+
+<ParamField query="--skip-prefix" type="boolean" default={false}>
+  Don't add tracker domain prefix to output filename.
+</ParamField>
 
 <ParamField query="--dry-run, -n" type="boolean" default={false}>
   Show what would be modified without making changes.
