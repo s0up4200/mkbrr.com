@@ -147,6 +147,15 @@ icon: download
               If you encounter issues with macOS Gatekeeper preventing `mkbrr` from running, execute the following command to remove the quarantine attribute: `xattr -d com.apple.quarantine /usr/local/bin/mkbrr`. You might also need to grant execution permissions: `chmod +x /usr/local/bin/mkbrr`.
             </Tip>
           </Tab>
+          <Tab title="FreeBSD">
+            <Info>
+              Make sure the extraction directory (e.g., `/usr/local/bin`) is included in your system's `PATH` environment variable so you can run `mkbrr` from any location.
+            </Info>
+            ```bash
+            wget $(curl -s https://api.github.com/repos/autobrr/mkbrr/releases/latest | grep download | grep freebsd_x86_64.tar.gz | cut -d\" -f4)
+            sudo tar -C /usr/local/bin -xzf mkbrr_*_freebsd_x86_64.tar.gz mkbrr
+            ```
+          </Tab>
           <Tab title="Windows">
             Download the `mkbrr_*_windows_x86_64.zip` file from the [GitHub Releases page](https://github.com/autobrr/mkbrr/releases/latest).
 
@@ -233,14 +242,14 @@ icon: download
           `alias mkbrr='docker run -v ~/Downloads:/downloads mkbrr mkbrr'`
         </Tip>
         <Info>
-          If you want mkbrr to automatically discover your <code>presets.yaml</code> or other config files, set the working directory (<code>-w</code>) to the config directory inside the container. mkbrr searches for config files in the current working directory and standard config paths (like <code>/root/.config/mkbrr</code>).
+          If you want mkbrr to automatically discover your <code>presets.yaml</code> or other config files, mount your config directory and set the working directory (<code>-w</code>) to it. mkbrr searches the current working directory and the standard config path (<code>$HOME/.config/mkbrr</code>, which resolves to <code>/config/.config/mkbrr</code> inside the official image, since it sets <code>HOME=/config</code>).
           For example, if your config is in <code>/mnt/user/appdata/mkbrr</code> on your host:
           ```bash
           alias mkbrr='docker run --rm \
             -v /mnt/user/data/complete/Music:/music \
             -v /mnt/user/data/torrentfiles/created:/torrentfiles \
-            -v /mnt/user/appdata/mkbrr:/root/.config/mkbrr \
-            -w /root/.config/mkbrr \
+            -v /mnt/user/appdata/mkbrr:/config \
+            -w /config \
             ghcr.io/autobrr/mkbrr mkbrr'
           ```
         </Info>
@@ -301,9 +310,10 @@ icon: download
             Run the executable directly - no installation required.
           </Tab>
           <Tab title="Linux">
-            Download `mkbrr-gui_*_linux_amd64.zip` and extract the binary.
+            Download `mkbrr-gui_*_linux_amd64.tar.gz` and extract the binary.
 
             ```bash
+            tar -xzf mkbrr-gui_*_linux_amd64.tar.gz
             chmod +x mkbrr-gui
             ./mkbrr-gui
             ```

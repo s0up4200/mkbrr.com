@@ -101,6 +101,22 @@ Before you begin, ensure you have the following installed on your system:
   make install        # Install the binary in GOPATH
   ```
 
+  ### PGO (Profile-Guided Optimization)
+  ```bash
+  make profile        # Generate a PGO profile (run before build-pgo)
+  make build-pgo      # Build the binary with PGO optimization
+  make install-pgo    # Install the PGO-optimized binary
+  ```
+
+  ### GUI Commands
+  ```bash
+  make install-wails  # Install the Wails CLI (one-time requirement)
+  make gui-dev        # Run the GUI in development mode
+  make gui-build      # Build the GUI for the current platform
+  make gui-build-all  # Build the GUI for all platforms
+  make gui-clean      # Clean GUI build artifacts
+  ```
+
   ### Testing Commands
   ```bash
   make test             # Run tests (excluding large tests)

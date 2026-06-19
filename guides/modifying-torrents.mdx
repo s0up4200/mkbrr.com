@@ -32,9 +32,9 @@ The `mkbrr modify` command allows you to update metadata in existing `.torrent` 
   By default, the original torrent files are preserved. New, modified files are created with a prefix based on the tracker domain (e.g., `tracker-domain_original-name.torrent`). You can customize the output filename or directory.
 </Info>
 
-<Warning>
-  The `modify` command strips all non-standard metadata during the process to ensure clean output.
-</Warning>
+<Info>
+  The `modify` command preserves existing metadata, including custom info-dict keys. Only the fields you explicitly change (name, tracker, source, comment, private flag, entropy) are updated.
+</Info>
 
 ## Arguments
 
@@ -88,5 +88,5 @@ mkbrr modify [torrent files...] [flags]
 By default, the original torrent files are preserved. New, modified files are created with a prefix based on the tracker domain (e.g., `tracker-domain_original-name.torrent`). You can customize the output filename or directory.
 
 <Note>
-  The `modify` command strips all non-standard metadata during the process to ensure clean output.
+  The `modify` command preserves existing metadata, including custom info-dict keys. Only the fields you explicitly change are updated.
 </Note>
