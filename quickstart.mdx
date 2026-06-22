@@ -30,11 +30,11 @@ icon: rabbit-running
     mkbrr create "Linux.ISO" -t udp://tracker.opentrackr.org:1337/announce --private=false
     
     # Multiple public trackers
-    mkbrr create "Linux.ISO" -t udp://tracker1.com,udp://tracker2.com --private=false
+    mkbrr create "Linux.ISO" -t udp://tracker1.com -t udp://tracker2.com --private=false
     ```
     
     <Note>
-      Use `--private=false` for public trackers. You can specify multiple trackers with commas.
+      Use `--private=false` for public trackers. Specify multiple trackers by repeating the `-t` flag.
     </Note>
   </Tab>
 </Tabs>
@@ -74,9 +74,9 @@ mkbrr automatically handles many settings for you:
   ```
   
   ### Invalid Piece Size
-  Piece size must be a power of 2 between 14 and 28:
+  Piece size must be a power of 2 between 16 and 27:
   ```bash
-  # Valid sizes: 14(16KiB), 15(32KiB), 16(64KiB)...28(256MiB)
+  # Valid sizes: 16(64KiB), 17(128KiB), 18(256KiB)...27(128MiB)
   mkbrr create data -t tracker.url --piece-length 16
   ```
   

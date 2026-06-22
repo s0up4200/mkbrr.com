@@ -74,7 +74,8 @@ zone.identifier
 
 <CardGroup cols={2}>
   <Card title="Pattern Matching" icon="book">
-    - Matches filename only (not full path)
+    - Simple patterns (no `/`) match by filename at any depth
+    - Path-aware glob with `**` matches the full relative path
     - Case-insensitive matching
     - Uses [glob patterns](https://en.wikipedia.org/wiki/Glob_(programming))
     - Supports comma-separated lists
