@@ -17,7 +17,7 @@ When creating a torrent, `mkbrr` compares the provided tracker URL against an in
     Enforces maximum piece size limits specific to each tracker (e.g., 16 MiB, 8 MiB).
   </Card>
   <Card title="Size Ranges" icon="ruler">
-    Selects optimal piece sizes based on content size using tracker-specific guidelines.
+    Selects optimal piece sizes based on content size using tracker-specific guidelines. Trackers with custom ranges can use piece sizes from 16 KiB to 128 MiB.
   </Card>
   <Card title="File Size" icon="file">
     Ensures the .torrent file stays within tracker size limits by adjusting piece length.
@@ -54,6 +54,7 @@ The tracker rules are maintained in the [mkbrr source code](https://github.com/a
 | BTN | Custom | 16 MiB | - | - |
 | TSYNDIKAT | Custom | 16 MiB | - | - |
 | OE | Custom | 16 MiB | - | - |
+| Portugas | Custom | - | 2 MiB | - |
 | lst.gg | Custom | 16 MiB | - | lst.gg |
 | Aither | Custom | 128 MiB | - | Aither |
 | ULCX | Default | - | - | ULCX |
