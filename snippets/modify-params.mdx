@@ -50,6 +50,10 @@ import CommonEntropy from '/snippets/common-entropy.mdx';
 
 <CommonEntropy />
 
+<ParamField query="--no-entropy" type="boolean" default={false}>
+  Remove the `entropy` key from the info dictionary. The info hash changes. If the torrent has no `entropy` key, mkbrr does not change the file. You cannot use this flag together with `--entropy`.
+</ParamField>
+
 ### Seeding & Metadata
 
 <CommonWebSeed />
